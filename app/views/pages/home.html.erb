@@ -1,0 +1,28 @@
+<div class="min-h-screen flex flex-col justify-center items-center bg-gray-100 p-6">
+  <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-md space-y-6">
+    <h1 class="text-3xl font-bold text-center text-gray-800">Event Management Platform</h1>
+
+    <% if user_signed_in? %>
+      <p class="text-center text-gray-600">
+        Welcome, <%= current_user.email %>!
+      </p>
+
+      <%= button_to "Logout",
+          destroy_user_session_path,
+          method: :delete,
+          class: "w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition"
+      %>
+
+    <% else %>
+      <%= link_to "Login",
+          new_user_session_path,
+          class: "w-full block text-center bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
+      %>
+
+      <%= link_to "Signup",
+          new_user_registration_path,
+          class: "w-full block text-center bg-green-500 text-white py-2 rounded-lg font-semibold hover:bg-green-600 transition"
+      %>
+    <% end %>
+  </div>
+</div>

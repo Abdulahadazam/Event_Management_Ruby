@@ -1,0 +1,16 @@
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/stringio-3.1.7/ext/stringio
+/home/abdulahad/.rvm/rubies/ruby-3.1.2/bin/ruby -I /home/abdulahad/.rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0 -r ./siteconf20251031-77322-vskgv.rb extconf.rb
+checking for rb_io_mode_t in ruby/io.h... no
+creating Makefile
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= clean
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\=
+compiling stringio.c
+linking shared-object stringio.so
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 stringio.so ./.gem.20251031-77322-90yrl2

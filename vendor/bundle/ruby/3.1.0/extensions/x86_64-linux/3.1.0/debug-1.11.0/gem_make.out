@@ -1,0 +1,16 @@
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+/home/abdulahad/.rvm/rubies/ruby-3.1.2/bin/ruby -I /home/abdulahad/.rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0 -r ./siteconf20251031-77322-2d041f.rb extconf.rb
+creating Makefile
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= clean
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\=
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20251031-77322-z92i5w/debug

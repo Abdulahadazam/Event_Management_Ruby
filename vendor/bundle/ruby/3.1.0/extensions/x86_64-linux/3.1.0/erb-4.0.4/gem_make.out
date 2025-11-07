@@ -1,0 +1,15 @@
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+/home/abdulahad/.rvm/rubies/ruby-3.1.2/bin/ruby -I /home/abdulahad/.rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0 -r ./siteconf20251031-77322-90iz56.rb extconf.rb
+creating Makefile
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= clean
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\=
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20251031-77322-um1nwe/erb
