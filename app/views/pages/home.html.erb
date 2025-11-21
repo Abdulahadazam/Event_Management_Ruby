@@ -1,28 +1,265 @@
-<div class="min-h-screen flex flex-col justify-center items-center bg-gray-100 p-6">
-  <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-md space-y-6">
-    <h1 class="text-3xl font-bold text-center text-gray-800">Event Management Platform</h1>
+<div class="min-h-screen bg-gray-50 flex flex-col" data-controller="events">
+  
+  <header class="border-b sticky top-0 bg-indigo-500 text-white z-20 shadow-md">
+    <div class="w-full px-8 sm:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-16">
+        
+        <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-90 transition-opacity" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+            <path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3"></path>
+            <path d="M2 9h20"></path>
+            <path d="M2 9v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9"></path>
+            <path d="M7 21v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
+          </svg>
+          <h1 class="text-2xl font-semibold text-white">EventHub</h1>
+        <% end %>
 
-    <% if user_signed_in? %>
-      <p class="text-center text-gray-600">
-        Welcome, <%= current_user.email %>!
-      </p>
+        <nav class="hidden md:flex items-center gap-4">
+          <%= link_to "Browse Events", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
+          <%= link_to "My Tickets", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
+          <%= link_to "About", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
+        </nav>
 
-      <%= button_to "Logout",
-          destroy_user_session_path,
-          method: :delete,
-          class: "w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-600 transition"
-      %>
+        <div class="flex items-center gap-3">
+          
+          <%= link_to new_event_request_path, class: "hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+            <span>Request Event</span>
+          <% end %>
 
-    <% else %>
-      <%= link_to "Login",
-          new_user_session_path,
-          class: "w-full block text-center bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
-      %>
+          <% if user_signed_in? %>
+            <div class="flex items-center gap-1 ml-2 border-l border-indigo-400 pl-3">
+              <%= link_to "Profile", edit_user_registration_path, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium text-sm" %>
+              
+              <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium text-sm" %>
+            </div>
+          <% else %>
+            <div class="flex items-center gap-2 ml-2">
+              <%= link_to "Log In", new_user_session_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors border border-indigo-400/30" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-white/10 text-white hover:bg-white/20 transition-colors border border-white/20" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
 
-      <%= link_to "Signup",
-          new_user_registration_path,
-          class: "w-full block text-center bg-green-500 text-white py-2 rounded-lg font-semibold hover:bg-green-600 transition"
-      %>
-    <% end %>
+  <main class="flex-grow">
+    
+    <section class="bg-gradient-to-br from-indigo-100 to-indigo-50 py-16 border-b border-indigo-100">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+          <h2 class="text-4xl font-bold text-gray-900 tracking-tight">Discover Amazing Events</h2>
+          <p class="text-gray-600 text-xl max-w-2xl mx-auto">
+            Browse thousands of events and experiences. Find your next adventure today.
+          </p>
+
+          <div class="flex flex-col md:flex-row gap-4 mt-8 max-w-2xl mx-auto">
+            <div class="flex-1 relative group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input 
+                type="text" 
+                placeholder="Search events..." 
+                data-events-target="search"
+                data-action="input->events#filterEvents"
+                class="w-full h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 pl-10 text-base outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
+              />
+            </div>
+            <select 
+              data-events-target="category"
+              data-action="change->events#filterEvents"
+              class="md:w-48 h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm cursor-pointer"
+            >
+              <option value="all">All Categories</option>
+              <option value="Music">Music</option>
+              <option value="Technology">Technology</option>
+              <option value="Food & Drink">Food & Drink</option>
+              <option value="Art">Art</option>
+              <option value="Sports">Sports</option>
+              <option value="Comedy">Comedy</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12">         
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900">Upcoming Events</h3>
+            <p class="text-gray-600 mt-1" data-events-target="count">
+              Showing <%= @events.count %> events
+            </p>
+          </div>
+        </div>
+
+        <div data-events-target="noResults" class="hidden text-center py-16 bg-white rounded-xl border border-gray-100 shadow-sm">
+          <div class="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+              <path d="M8 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+              <path d="M3 10h18"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-medium text-gray-900 mb-2">No events found</h3>
+          <p class="text-gray-500 max-w-md mx-auto">
+            We couldn't find any events matching your search. Try adjusting your filters or search terms.
+          </p>
+        </div>
+
+        <div data-events-target="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <% @events.each do |event| %>
+            <div class="group event-card rounded-2xl border border-gray-200 bg-white overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1" 
+                 data-category="<%= event.category %>"
+                 data-title="<%= event.title.downcase %>"
+                 data-location="<%= event.location.downcase %>">
+              
+              <div class="relative h-52 overflow-hidden bg-gray-100">
+                <% if event.image_url.present? %>
+                  <%= image_tag event.image_url, alt: event.title, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" %>
+                <% end %>
+                <span class="absolute top-4 right-4 inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-indigo-600 shadow-sm">
+                  <%= event.category %>
+                </span>
+              </div>
+
+              <div class="p-6">
+                <%= link_to event_path(event), class: "block" do %>
+                  <h3 class="text-xl font-semibold text-gray-900 mb-2 line-clamp-1 hover:text-indigo-600 transition-colors cursor-pointer"><%= event.title %></h3>
+                <% end %>
+                <p class="text-gray-600 text-sm mb-5 line-clamp-2 h-10"><%= event.description %></p>
+                
+                <div class="space-y-3 mb-6">
+                  <div class="flex items-center gap-3 text-gray-600">
+                    <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                    </div>
+                    <% if event.date.present? %>
+                      <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-900"><%= event.date.strftime("%b %d, %Y") %></span>
+                        <span class="text-xs text-gray-500"><%= event.date.strftime("%I:%M %p") %></span>
+                      </div>
+                    <% else %>
+                      <span class="text-sm">Date not set</span>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex items-center gap-3 text-gray-600">
+                     <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <span class="text-sm truncate"><%= event.location %></span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div>
+                    <span class="text-gray-400 text-xs font-medium uppercase tracking-wider">Price</span>
+                    <p class="text-xl font-bold text-gray-900">$<%= event.price %></p>
+                  </div>
+                  <%= link_to event_path(event), class: "inline-flex items-center justify-center rounded-lg text-sm font-semibold h-10 px-6 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200" do %>
+                    View Details
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    </main> 
+</div>   <!-- CLOSES min-h-screen wrapper properly -->
+
+<footer class="bg-indigo-950 text-white border-t border-indigo-900">
+  <div class="w-full px-8 sm:px-16 lg:px-24 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <div class="col-span-1 md:col-span-1">
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+               stroke-linejoin="round" class="text-indigo-400">
+            <path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3"></path>
+            <path d="M2 9h20"></path>
+            <path d="M2 9v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9"></path>
+            <path d="M7 21v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
+          </svg>
+          <span class="text-xl font-bold">EventHub</span>
+        </div>
+        <p class="text-indigo-300 text-sm leading-relaxed">
+          The best place to find your next adventure. Connect with communities and experience the extraordinary.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-indigo-200">Discover</h4>
+        <ul class="space-y-2 text-sm text-indigo-300">
+          <li><a href="#" class="hover:text-white transition-colors">Concerts & Gigs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Festivals</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Workshops</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Sports</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-indigo-200">Support</h4>
+        <ul class="space-y-2 text-sm text-indigo-300">
+          <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-4 text-indigo-200">Stay Updated</h4>
+        <div class="flex gap-2">
+          <input type="email" placeholder="Enter your email" 
+            class="bg-indigo-900/50 border border-indigo-800 rounded px-3 py-2 text-sm w-full 
+                   focus:outline-none focus:border-indigo-500 text-white placeholder-indigo-400">
+        </div>
+        <button class="mt-2 w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm 
+                       font-medium py-2 rounded transition-colors">
+          Subscribe
+        </button>
+      </div>
+
+    </div>
+
+    <div class="pt-8 border-t border-indigo-900 flex flex-col md:flex-row justify-between 
+                items-center gap-4">
+      <p class="text-indigo-400 text-sm">© <%= Time.now.year %> EventHub. All rights reserved.</p>
+      
+      <div class="flex items-center gap-4">
+        <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+               stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+               stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+               stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+      </div>
+
+    </div>
   </div>
-</div>
+</footer>

@@ -35,6 +35,9 @@ gem "jbuilder"
 
 gem "sassc-rails"
 
+gem 'active_admin_theme'
+gem 'solargraph'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  phone: MyString
+  event_title: MyString
+  event_description: MyText
+  preferred_date: 2025-11-18
+  preferred_time: MyString
+  is_remote: false
+  venue_address: MyString
+  city: MyString
+  country: MyString
+  platform: MyString
+  meeting_link: MyString
+  time_zone: MyString
+  event_category_id: 1
+  status: 1
+  notes: MyText
+
+two:
+  name: MyString
+  email: MyString
+  phone: MyString
+  event_title: MyString
+  event_description: MyText
+  preferred_date: 2025-11-18
+  preferred_time: MyString
+  is_remote: false
+  venue_address: MyString
+  city: MyString
+  country: MyString
+  platform: MyString
+  meeting_link: MyString
+  time_zone: MyString
+  event_category_id: 1
+  status: 1
+  notes: MyText

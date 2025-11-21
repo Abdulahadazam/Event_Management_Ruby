@@ -10,6 +10,17 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
+
+    ActiveAdmin.register_page "Dashboard" do
+  content do
+    panel "System Stats" do
+      para "Total Events: #{Event.count}"
+      para "Total Users: #{User.count}"
+    end
+  end
+end
+
+
     # Here is an example of a simple dashboard with columns and panels.
     #
     # columns do

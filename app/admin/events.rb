@@ -16,6 +16,7 @@ ActiveAdmin.register Event do
       f.input :description
       f.input :date, as: :datepicker
       f.input :location
+       column "Attendees", :registrations_count
     end
     f.actions
   end

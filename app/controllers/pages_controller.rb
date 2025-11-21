@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
-  def home
+ def home
+    @events = Event.all   
   end
 end

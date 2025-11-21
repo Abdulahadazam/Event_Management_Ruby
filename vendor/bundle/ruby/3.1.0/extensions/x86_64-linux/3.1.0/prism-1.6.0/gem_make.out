@@ -1,0 +1,41 @@
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/ext/prism
+/home/abdulahad/.rvm/rubies/ruby-3.1.2/bin/ruby -I /home/abdulahad/.rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0 -r ./siteconf20251111-15523-3w63u3.rb extconf.rb
+checking for prism.h in /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/include... yes
+checking for prism/extension.h in /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/ext... yes
+checking for whether -fvisibility=hidden is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/ext/prism
+make DESTDIR\= clean
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/ext/prism
+make DESTDIR\=
+compiling api_node.c
+compiling api_pack.c
+compiling extension.c
+compiling ./../../src/diagnostic.c
+compiling ./../../src/encoding.c
+compiling ./../../src/node.c
+compiling ./../../src/options.c
+compiling ./../../src/pack.c
+compiling ./../../src/prettyprint.c
+compiling ./../../src/prism.c
+compiling ./../../src/regexp.c
+compiling ./../../src/serialize.c
+compiling ./../../src/static_literals.c
+compiling ./../../src/token_type.c
+compiling ./../../src/util/pm_buffer.c
+compiling ./../../src/util/pm_char.c
+compiling ./../../src/util/pm_constant_pool.c
+compiling ./../../src/util/pm_integer.c
+compiling ./../../src/util/pm_list.c
+compiling ./../../src/util/pm_memchr.c
+compiling ./../../src/util/pm_newline_list.c
+compiling ./../../src/util/pm_string.c
+compiling ./../../src/util/pm_strncasecmp.c
+compiling ./../../src/util/pm_strpbrk.c
+linking shared-object prism/prism.so
+
+current directory: /home/abdulahad/event_management_platform/vendor/bundle/ruby/3.1.0/gems/prism-1.6.0/ext/prism
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 prism.so ./.gem.20251111-15523-iigapg/prism

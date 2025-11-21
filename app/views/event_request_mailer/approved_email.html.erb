@@ -1,0 +1,7 @@
+<p>Hi <%= @event_request.name %>,</p>
+
+<p>Good news — your request for "<strong><%= @event_request.event_title %></strong>" has been approved. We created the event on your behalf: <strong><%= @event.title %></strong>.</p>
+
+<p>It is now live and you can view it here: <%= url_for(controller: 'events', action: 'show', id: @event.id) %></p>
+
+<p>— EventHub team</p>
