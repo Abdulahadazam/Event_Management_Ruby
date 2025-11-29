@@ -1,4 +1,3 @@
-<!-- app/views/event_requests/new.html.erb -->
 <div class="min-h-screen bg-gray-50 py-12">
   <!-- Header -->
   <div class="max-w-4xl mx-auto px-8 sm:px-16 lg:px-24">
@@ -9,15 +8,26 @@
         </svg>
         <span>Back to EventHub</span>
       <% end %>
-      
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Request an Event</h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-        Have an amazing event idea? Let us help you bring it to life. Fill out the form below and we'll get back to you soon.
-      </p>
-    </div>
+ 
+<div class="min-h-screen bg-gray-50 py-12">
+  <!-- Header -->
+  <div class="max-w-4xl mx-auto px-8 sm:px-16 lg:px-24">
+    <div class="text-center mb-12">
+      <%= link_to root_path, class: "inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 transition-colors mb-8" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        <span>Back to EventHub</span>
+      <% end %>
 
-  <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-12">
 
+  <h1 class="text-4xl font-bold text-gray-900 mb-4">Request an Event</h1>
+  <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+    Have an amazing event idea? Let us help you bring it to life. Fill out the form below and we'll get back to you soon.
+  </p>
+</div>
+
+<div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 md:p-12">
   <%= form_with model: @event_request, local: true, html: { multipart: true, data: { controller: "event-request" } } do |f| %>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
@@ -36,8 +46,21 @@
         <%= f.label :event_category_id, "Category", class: "block text-sm font-medium text-gray-700 mb-2" %>
         <%= f.collection_select :event_category_id, Category.all, :id, :name, { prompt: "Select category" }, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors cursor-pointer" %>
       </div>
+      <div>
+        <%= f.label :event_type, "Event Type", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.select :event_type, ["Concert", "Conference", "Party", "Meetup", "Workshop"], { prompt: "Select event type" }, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors cursor-pointer" %>
+      </div>
+      <div>
+        <%= f.label :expected_guests, "Expected Guests", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.number_field :expected_guests, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "e.g. 50" %>
+      </div>
+      <div>
+        <%= f.label :budget, "Budget (USD)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.number_field :budget, step: 0.01, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "e.g. 1000.00" %>
+      </div>
     </div>
 
+    <!-- Existing fields stay the same -->
     <div class="mt-6">
       <%= f.label :event_title, "Event Title", class: "block text-sm font-medium text-gray-700 mb-2" %>
       <%= f.text_field :event_title, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "Give your event a catchy title" %>
@@ -48,65 +71,82 @@
       <%= f.text_area :event_description, rows: 5, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none", placeholder: "Describe your event in detail..." %>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    <!-- Physical vs Remote fields -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
       <div>
-        <%= f.label :preferred_date, "Preferred Date" %>
-        <%= f.date_field :preferred_date, class: "mt-1 block w-full rounded-md border-gray-300" %>
+        <%= f.label :preferred_date, "Preferred Date", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.date_field :preferred_date, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" %>
       </div>
       <div>
-        <%= f.label :preferred_time, "Preferred Time" %>
-        <%= f.text_field :preferred_time, class: "mt-1 block w-full rounded-md border-gray-300" %>
+        <%= f.label :preferred_time, "Preferred Time", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :preferred_time, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "e.g. 2:00 PM" %>
       </div>
       <div>
-        <%= f.label :is_remote, "Event Type" %>
-        <div class="mt-1">
-          <label class="inline-flex items-center mr-4">
-            <%= f.radio_button :is_remote, false, checked: true, data: { action: "change->event-request#toggle" } %>
-            <span class="ml-2">Physical</span>
-          </label>
+        <%= f.label :is_remote, "Event Mode", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <div class="mt-1 space-y-2">
           <label class="inline-flex items-center">
-            <%= f.radio_button :is_remote, true, data: { action: "change->event-request#toggle" } %>
-            <span class="ml-2">Remote</span>
+            <%= f.radio_button :is_remote, false, checked: true, data: { action: "change->event-request#toggle" }, class: "text-indigo-600 focus:ring-indigo-500" %>
+            <span class="ml-2 text-gray-700">Physical</span>
+          </label>
+          <label class="inline-flex items-center ml-6">
+            <%= f.radio_button :is_remote, true, data: { action: "change->event-request#toggle" }, class: "text-indigo-600 focus:ring-indigo-500" %>
+            <span class="ml-2 text-gray-700">Remote</span>
           </label>
         </div>
       </div>
     </div>
 
-    <div id="physical_fields" data-event-request-target="physical" class="mt-4">
-      <%= f.label :venue_address %>
-      <%= f.text_field :venue_address, class: "mt-1 block w-full rounded-md border-gray-300" %>
+    <div id="physical_fields" data-event-request-target="physical" class="mt-6 space-y-4">
+      <div>
+        <%= f.label :venue_address, "Venue Address", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :venue_address, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "Enter venue address" %>
+      </div>
 
-      <div class="grid grid-cols-2 gap-4 mt-2">
-        <%= f.text_field :city, placeholder: "City", class: "block w-full rounded-md border-gray-300" %>
-        <%= f.text_field :country, placeholder: "Country", class: "block w-full rounded-md border-gray-300" %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= f.label :city, "City", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.text_field :city, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "Enter city" %>
+        </div>
+        <div>
+          <%= f.label :country, "Country", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.text_field :country, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "Enter country" %>
+        </div>
       </div>
     </div>
 
-    <div id="remote_fields" data-event-request-target="remote" class="mt-4 hidden">
-      <%= f.label :platform, "Platform (Zoom, Google Meet...)" %>
-      <%= f.text_field :platform, class: "mt-1 block w-full rounded-md border-gray-300" %>
+    <div id="remote_fields" data-event-request-target="remote" class="mt-6 space-y-4 hidden">
+      <div>
+        <%= f.label :platform, "Platform (Zoom, Google Meet, etc.)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :platform, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "e.g. Zoom, Google Meet" %>
+      </div>
 
-      <%= f.label :meeting_link, "Meeting link (optional)", class: "mt-2 block" %>
-      <%= f.url_field :meeting_link, class: "mt-1 block w-full rounded-md border-gray-300" %>
+      <div>
+        <%= f.label :meeting_link, "Meeting Link (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.url_field :meeting_link, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "https://..." %>
+      </div>
 
-      <%= f.label :time_zone, "Time zone (e.g. Asia/Karachi)", class: "mt-2 block" %>
-      <%= f.text_field :time_zone, class: "mt-1 block w-full rounded-md border-gray-300" %>
+      <div>
+        <%= f.label :time_zone, "Time Zone", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :time_zone, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", placeholder: "e.g. Asia/Karachi, America/New_York" %>
+      </div>
     </div>
 
-    <div class="mt-4">
-      <%= f.label :banner, "Upload banner (optional)" %>
-      <%= f.file_field :banner, class: "mt-1 block w-full" %>
+    <div class="mt-6">
+      <%= f.label :banner, "Upload Banner (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.file_field :banner, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
     </div>
 
-    <div class="mt-4">
-      <%= f.label :notes, "Additional Notes" %>
-      <%= f.text_area :notes, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300" %>
+    <div class="mt-6">
+      <%= f.label :notes, "Additional Notes", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= f.text_area :notes, rows: 4, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none", placeholder: "Any additional information or special requests..." %>
     </div>
 
     <div class="mt-8">
       <%= f.submit "Submit Request", class: "w-full md:w-auto inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg" %>
     </div>
   <% end %>
-  </div>
+</div>
+
+
   </div>
 </div>

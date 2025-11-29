@@ -23,7 +23,7 @@
   <!-- Form -->
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-slate-800 py-8 px-6 shadow-2xl rounded-2xl border border-slate-700 sm:px-10">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), local: true) do |f| %>
         <!-- Error Messages -->
         <% if resource.errors.any? %>
           <div class="mb-6 p-4 bg-red-900/50 border border-red-700 rounded-lg">
@@ -78,7 +78,8 @@
           <!-- Submit Button -->
           <div>
             <%= f.submit "Create account",
-              class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors cursor-pointer" %>
+              class: "w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700",
+              style: "cursor: pointer;" %>
           </div>
         </div>
       <% end %>

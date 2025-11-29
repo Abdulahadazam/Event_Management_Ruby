@@ -1,0 +1,356 @@
+<div class="min-h-screen bg-gray-50 flex flex-col">
+  
+  <header class="border-b sticky top-0 bg-indigo-500 text-white z-20 shadow-md">
+    <div class="w-full px-8 sm:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-16">
+        
+        <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-90 transition-opacity" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+            <path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3"></path>
+            <path d="M2 9h20"></path>
+            <path d="M2 9v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9"></path>
+            <path d="M7 21v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
+          </svg>
+          <h1 class="text-2xl font-semibold text-white">EventHub</h1>
+        <% end %>
+
+        <nav class="hidden md:flex items-center gap-4">
+          <%= link_to "Browse Events", root_path, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
+          <%= link_to "My Tickets", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
+          <%= link_to "About", about_path, class: "px-3 py-2 rounded-md text-white bg-white/10 transition-colors font-medium" %>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          
+          <%= link_to new_event_request_path, class: "hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+            <span>Request Event</span>
+          <% end %>
+
+          <% if user_signed_in? %>
+            <div class="flex items-center gap-1 ml-2 border-l border-indigo-400 pl-3">
+              <%= link_to "Profile", edit_user_registration_path, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium text-sm" %>
+              
+              <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium text-sm" %>
+            </div>
+          <% else %>
+            <div class="flex items-center gap-2 ml-2">
+              <%= link_to "Log In", new_user_session_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors border border-indigo-400/30" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-white/10 text-white hover:bg-white/20 transition-colors border border-white/20" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-indigo-100 to-indigo-50 py-20 border-b border-indigo-100">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+          <h2 class="text-5xl font-bold text-gray-900 tracking-tight">About EventHub</h2>
+          <p class="text-gray-600 text-xl max-w-2xl mx-auto leading-relaxed">
+            Connecting communities through unforgettable experiences since 2024
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-16">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+              <h3 class="text-3xl font-bold text-gray-900">Our Mission</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                At EventHub, we believe that life's most memorable moments happen when people come together. Our platform is designed to bridge the gap between event organizers and attendees, making it easier than ever to discover, share, and participate in amazing experiences.
+              </p>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                Whether you're looking for music festivals, tech conferences, food tastings, or community gatherings, EventHub is your gateway to a world of possibilities.
+              </p>
+            </div>
+            <div class="relative h-96 rounded-2xl overflow-hidden shadow-xl">
+              <div class="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-50">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-16 bg-white">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">Our Core Values</h3>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+              The principles that guide everything we do
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <!-- Value 1 -->
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 hover:shadow-lg transition-shadow">
+              <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                </svg>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Community First</h4>
+              <p class="text-gray-600">
+                We prioritize building meaningful connections and fostering vibrant communities through shared experiences.
+              </p>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:shadow-lg transition-shadow">
+              <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+                  <path d="M12 2v20"></path>
+                  <path d="m15 5-3 3-3-3"></path>
+                  <path d="m15 19-3-3-3 3"></path>
+                  <path d="M2 12h20"></path>
+                  <path d="m5 9 3 3-3 3"></path>
+                  <path d="m19 9-3 3 3 3"></path>
+                </svg>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Innovation</h4>
+              <p class="text-gray-600">
+                We constantly evolve our platform to provide the best event discovery and management experience.
+              </p>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-pink-50 to-white border border-pink-100 hover:shadow-lg transition-shadow">
+              <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pink-600">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                </svg>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-3">Trust & Safety</h4>
+              <p class="text-gray-600">
+                Your security and privacy are paramount. We ensure every event is verified and every transaction is secure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gradient-to-br from-indigo-600 to-purple-600 text-white">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold mb-4">Our Impact in Numbers</h3>
+            <p class="text-indigo-100 text-lg">
+              Growing stronger together, one event at a time
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+              <div class="text-5xl font-bold mb-2">50K+</div>
+              <div class="text-indigo-200">Events Hosted</div>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl font-bold mb-2">1M+</div>
+              <div class="text-indigo-200">Happy Attendees</div>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl font-bold mb-2">500+</div>
+              <div class="text-indigo-200">Cities Covered</div>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl font-bold mb-2">98%</div>
+              <div class="text-indigo-200">Satisfaction Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-16">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h3>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+              Passionate individuals dedicated to creating extraordinary event experiences
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-4 gap-8">
+            <!-- Team Member 1 -->
+            <div class="text-center group">
+              <div class="relative mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h4 class="font-semibold text-gray-900 text-lg">Sarah Johnson</h4>
+              <p class="text-indigo-600 text-sm font-medium">CEO & Founder</p>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="text-center group">
+              <div class="relative mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h4 class="font-semibold text-gray-900 text-lg">Michael Chen</h4>
+              <p class="text-indigo-600 text-sm font-medium">CTO</p>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="text-center group">
+              <div class="relative mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h4 class="font-semibold text-gray-900 text-lg">Emily Davis</h4>
+              <p class="text-indigo-600 text-sm font-medium">Head of Marketing</p>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="text-center group">
+              <div class="relative mb-4 mx-auto w-40 h-40 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h4 class="font-semibold text-gray-900 text-lg">David Martinez</h4>
+              <p class="text-indigo-600 text-sm font-medium">Head of Operations</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="w-full px-8 sm:px-16 lg:px-24">
+        <div class="max-w-4xl mx-auto text-center">
+          <h3 class="text-3xl font-bold text-gray-900 mb-4">Ready to Discover Your Next Event?</h3>
+          <p class="text-gray-600 text-lg mb-8">
+            Join thousands of event-goers and organizers who trust EventHub for their experiences
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <%= link_to root_path, class: "inline-flex items-center justify-center rounded-lg text-base font-semibold h-12 px-8 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-md" do %>
+              Browse Events
+            <% end %>
+            <%= link_to new_event_request_path, class: "inline-flex items-center justify-center rounded-lg text-base font-semibold h-12 px-8 bg-white text-indigo-600 hover:bg-gray-50 transition-colors shadow-md border border-indigo-200" do %>
+              Create an Event
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-indigo-950 text-white border-t border-indigo-900">
+    <div class="w-full px-8 sm:px-16 lg:px-24 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        
+        <div class="col-span-1 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round" class="text-indigo-400">
+              <path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3"></path>
+              <path d="M2 9h20"></path>
+              <path d="M2 9v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9"></path>
+              <path d="M7 21v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
+            </svg>
+            <span class="text-xl font-bold">EventHub</span>
+          </div>
+          <p class="text-indigo-300 text-sm leading-relaxed">
+            The best place to find your next adventure. Connect with communities and experience the extraordinary.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-4 text-indigo-200">Discover</h4>
+          <ul class="space-y-2 text-sm text-indigo-300">
+            <li><a href="#" class="hover:text-white transition-colors">Concerts & Gigs</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Festivals</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Workshops</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Sports</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-4 text-indigo-200">Support</h4>
+          <ul class="space-y-2 text-sm text-indigo-300">
+            <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-semibold mb-4 text-indigo-200">Stay Updated</h4>
+          <div class="flex gap-2">
+            <input type="email" placeholder="Enter your email" 
+              class="bg-indigo-900/50 border border-indigo-800 rounded px-3 py-2 text-sm w-full 
+                     focus:outline-none focus:border-indigo-500 text-white placeholder-indigo-400">
+          </div>
+          <button class="mt-2 w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm 
+                         font-medium py-2 rounded transition-colors">
+            Subscribe
+          </button>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-indigo-900 flex flex-col md:flex-row justify-between 
+                  items-center gap-4">
+        <p class="text-indigo-400 text-sm">© <%= Time.now.year %> EventHub. All rights reserved.</p>
+        
+        <div class="flex items-center gap-4">
+          <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="text-indigo-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+</div>

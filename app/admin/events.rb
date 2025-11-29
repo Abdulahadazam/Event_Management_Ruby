@@ -7,16 +7,16 @@ ActiveAdmin.register Event do
     column :title
     column :date
     column :location
-    actions
+    actions                                                                     
   end
 
   form do |f|
-    f.inputs "Event Details" do
+    f.inputs "Event Details" do       
       f.input :title
       f.input :description
       f.input :date, as: :datepicker
       f.input :location
-       column "Attendees", :registrations_count
+       f.input :registrations_count, label: "Attendees", input_html: { disabled: true }
     end
     f.actions
   end
