@@ -1,18 +1,47 @@
-// Sass variable overrides must be declared before loading up Active Admin's styles.
-//
-// To view the variables that Active Admin provides, take a look at
-// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
-// Active Admin source.
-//
-// For example, to change the sidebar width:
-// $sidebar-width: 242px;
+// ==========================
+// ActiveAdmin Light Blue Theme
+// ==========================
 
-// Active Admin's got SASS!
+// 1. Override variables BEFORE importing Active Admin base
+$primary-color: #1e90ff;       // Light blue for top bar & buttons
+$header-background-color: $primary-color;
+$header-font-color: #fff;
+$body-background-color: #f9f9f9;
+$sidebar-background-color: #f0f4f8;
+$sidebar-font-color: #333;
+
+// 2. Import Active Admin's base styles
 @import "active_admin/mixins";
 @import "active_admin/base";
-@import 'wigu/active_admin_theme';
 
-// Overriding any non-variable Sass must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
+// ==========================
+// 3. Custom overrides AFTER base
+// ==========================
+
+// Top bar links
+.active_admin #header a {
+  color: #fff !important;
+}
+
+// Sidebar links
+.active_admin #sidebar a {
+  color: #333 !important;
+}
+
+// Flash messages
+.active_admin .flash {
+  background-color: #1e90ff;
+  color: #fff;
+}
+
+// Table header background
+.active_admin table.index_table th {
+  background-color: #1e90ff;
+  color: #fff;
+}
+
+// Status tag default color
+.status_tag {
+  background-color: #1e90ff;
+  color: #fff;
+}

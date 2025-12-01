@@ -29,4 +29,8 @@ class RegistrationsController < ApplicationController
   def set_event
     @event = Event.find(params[:event_id])
   end
+
+  def after_inactive_sign_up_path_for(resource)
+    new_user_session_path
+  end
 end

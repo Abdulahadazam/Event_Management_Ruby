@@ -92,6 +92,17 @@
       </div>
     </div>
 
+      <div class="mt-4">
+  <form action="<%= user_google_oauth2_omniauth_authorize_path %>" method="post" data-turbo="false" class="w-full">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <button type="submit" class="w-full flex justify-center rounded-md bg-red-600 py-2 px-4
+           text-sm font-semibold text-white hover:bg-red-700">
+      Sign in with Google
+    </button>
+  </form>
+</div>
+ 
+
     <!-- Back to Home -->
     <div class="mt-8 text-center">
       <%= link_to root_path, class: "inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors" do %>

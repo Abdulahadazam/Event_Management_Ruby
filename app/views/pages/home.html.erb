@@ -14,13 +14,12 @@
           <h1 class="text-2xl font-semibold text-white">EventHub</h1>
         <% end %>
 
-        <nav class="hidden md:flex items-center gap-4">
-          <%= link_to "Browse Events", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
-          <%= link_to "My Tickets", "#", class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
-          <%= link_to "About", about_path, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium" %>
-        </nav>
-
-        <div class="flex items-center gap-3">
+       <nav class="hidden md:flex items-center gap-4">
+  <%= link_to "Browse Events", "#", class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+  <%= link_to "My Tickets", "#", class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+  <%= link_to "About", about_path, class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+</nav>
+        <div class="flex items-center gap-3">  
           
           <%= link_to new_event_request_path, class: "hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" do %>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -29,7 +28,7 @@
             </svg>
             <span>Request Event</span>
           <% end %>
-
+            
           <% if user_signed_in? %>
             <div class="flex items-center gap-1 ml-2 border-l border-indigo-400 pl-3">
               <%= link_to "Profile", edit_user_registration_path, class: "px-3 py-2 rounded-md text-white hover:bg-white/10 transition-colors font-medium text-sm" %>
@@ -38,7 +37,7 @@
             </div>
           <% else %>
             <div class="flex items-center gap-2 ml-2">
-              <%= link_to "Log In", new_user_session_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors border border-indigo-400/30" %>
+              <%= link_to "Log In", new_user_session_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-white text-indigo-600   hover:bg-indigo-50 transition-colors shadow-sm" %>
               <%= link_to "Sign Up", new_user_registration_path, class: "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 py-2 bg-white/10 text-white hover:bg-white/20 transition-colors border border-white/20" %>
             </div>
           <% end %>
@@ -88,6 +87,92 @@
         </div>
       </div>
     </section>
+
+     <!-- Categories Section -->
+  <section class="container mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">Browse by Category</h2>
+      <p class="text-xl text-gray-600">Find events that match your interests</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Sports Events Category -->
+      <a href="/events?category=sports" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1760508737418-a7add7ee3871?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Sports Events" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-orange-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Sports Events</h3>
+          <p class="text-gray-200">45 events</p>
+        </div>
+      </a>
+
+      <!-- Tech Conferences Category -->
+      <a href="/events?category=tech" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1582192730841-2a682d7375f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Tech Conferences" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-blue-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Tech Conferences</h3>
+          <p class="text-gray-200">32 events</p>
+        </div>
+      </a>
+
+      <!-- Concerts Category -->
+      <a href="/events?category=concerts" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1648260029310-5f1da359af9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Concerts" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-pink-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Concerts</h3>
+          <p class="text-gray-200">78 events</p>
+        </div>
+      </a>
+
+      <!-- Parties Category -->
+      <a href="/events?category=parties" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1759124650346-43900f8479d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Parties" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-indigo-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Parties</h3>
+          <p class="text-gray-200">56 events</p>
+        </div>
+      </a>
+    </div>
+  </section>
 
     <section class="py-12">         
       <div class="w-full px-8 sm:px-16 lg:px-24">
@@ -165,7 +250,7 @@
                     <span class="text-gray-400 text-xs font-medium uppercase tracking-wider">Price</span>
                     <p class="text-xl font-bold text-gray-900">$<%= event.price %></p>
                   </div>
-                  <%= link_to event_path(event), class: "inline-flex items-center justify-center rounded-lg text-sm font-semibold h-10 px-6 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200" do %>
+                  <%= link_to event_path(event), class: "inline-flex items-center justify-center rounded-lg text-sm font-semibold h-10 px-6 bg-indigo-500 text-white hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200" do %>
                     View Details
                   <% end %>
                 </div>
@@ -180,7 +265,7 @@
     </main> 
 </div>   <!-- CLOSES min-h-screen wrapper properly -->
 
-<footer class="bg-indigo-950 text-white border-t border-indigo-900">
+<footer class="bg-indigo-500 text-white border-t border-indigo-900">
   <div class="w-full px-8 sm:px-16 lg:px-24 py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       
@@ -196,14 +281,14 @@
           </svg>
           <span class="text-xl font-bold">EventHub</span>
         </div>
-        <p class="text-indigo-300 text-sm leading-relaxed">
+        <p class="text-white text-sm leading-relaxed">
           The best place to find your next adventure. Connect with communities and experience the extraordinary.
         </p>
       </div>
 
       <div>
-        <h4 class="font-semibold mb-4 text-indigo-200">Discover</h4>
-        <ul class="space-y-2 text-sm text-indigo-300">
+        <h4 class="font-semibold mb-4 text-white">Discover</h4>
+        <ul class="space-y-2 text-sm text-white">
           <li><a href="#" class="hover:text-white transition-colors">Concerts & Gigs</a></li>
           <li><a href="#" class="hover:text-white transition-colors">Festivals</a></li>
           <li><a href="#" class="hover:text-white transition-colors">Workshops</a></li>
@@ -212,8 +297,8 @@
       </div>
 
       <div>
-        <h4 class="font-semibold mb-4 text-indigo-200">Support</h4>
-        <ul class="space-y-2 text-sm text-indigo-300">
+        <h4 class="font-semibold mb-4 text-white">Support</h4>
+        <ul class="space-y-2 text-sm text-white">
           <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
           <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
           <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>

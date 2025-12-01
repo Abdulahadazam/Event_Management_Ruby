@@ -1,11 +1,13 @@
 class EventRequest < ApplicationRecord
-  enum status: { pending: 0, approved: 1, rejected: 2 }
+      enum :status, { pending: 0, approved: 1, rejected: 2 }, default: :pending
+
 
   belongs_to :category, class_name: "Category", optional: true 
   has_one_attached :banner
 
   validates :name, :email, :event_title, :event_description, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
 
   
   def self.ransackable_associations(auth_object = nil)
