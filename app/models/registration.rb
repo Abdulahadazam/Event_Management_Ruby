@@ -1,10 +1,16 @@
 class Registration < ApplicationRecord
   belongs_to :user
   belongs_to :event, counter_cache: true
+  has_many :tickets, dependent: :destroy
+
+  validates :user_id, uniqueness: { scope: :event_id, message: "already registered for this event" }
+  validates :status, presence: true
+
+    after_create :send_confirmation_email_async
 
 
   def self.ransackable_associations(auth_object = nil)
-    ["event", "user"]
+    ["event", "user", "tickets"]
   end
 
   def self.ransackable_attributes(auth_object = nil)

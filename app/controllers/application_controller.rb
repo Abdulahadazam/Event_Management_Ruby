@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
 
    allow_browser versions: :modern
   
-  # Add this line:
+  
   skip_forgery_protection if: -> { request.path.start_with?('/users/auth/') }
 end

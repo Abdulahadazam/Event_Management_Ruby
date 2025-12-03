@@ -3,7 +3,7 @@ ActiveAdmin.register User do
 
   permit_params :email, :role, :password, :password_confirmation
 
-  # Remove Devise fields
+  
   remove_filter :reset_password_token
   remove_filter :reset_password_sent_at
   remove_filter :remember_created_at
@@ -13,7 +13,7 @@ ActiveAdmin.register User do
   remove_filter :confirmation_sent_at
   remove_filter :unconfirmed_email
 
-  # Remove associations not needed
+  
   remove_filter :registrations
 
   index do

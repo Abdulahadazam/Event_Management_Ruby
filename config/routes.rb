@@ -14,6 +14,11 @@ Rails.application.routes.draw do
     resources :registrations, only: [:create, :destroy]
   end
 
+  resources :events do
+  resources :tickets, only: [:create]
+  # or if you want all CRUD operations:
+  # resources :tickets
+end
 
   resources :event_requests, only: [:new, :create, :show]
 

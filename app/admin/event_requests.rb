@@ -4,7 +4,7 @@ ActiveAdmin.register EventRequest do
                 :city, :country, :platform, :meeting_link, :time_zone,
                 :category_id, :status, :notes, :banner
 
-  # Explicitly define filters
+
   filter :event_title
   filter :name
   filter :email
@@ -16,7 +16,7 @@ ActiveAdmin.register EventRequest do
   filter :country
   filter :created_at
 
-  # Remove problematic filters
+  
   remove_filter :banner_attachment, :banner_blob, :category
 
   scope :all, default: true
