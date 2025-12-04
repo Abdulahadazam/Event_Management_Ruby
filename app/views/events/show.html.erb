@@ -229,62 +229,105 @@
                           data: { confirm: "Are you sure you want to cancel your registration?" } %>
                     </div>
                   <% else %>
-                    <!-- Ticket Selection Form -->
-                    <%= form_with url: event_tickets_path(@event), method: :post, local: true, id: "ticket-form", class: "space-y-6" do |f| %>
-                      <!-- Quantity Selector -->
-                      <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-3">Number of Tickets</label>
-                        <div class="flex items-center gap-4">
-                          <button type="button" id="decrease-qty" class="w-12 h-12 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center font-bold text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <path d="M5 12h14"></path>
-                            </svg>
-                          </button>
-                          
-                          <%= f.number_field :quantity, value: 1, min: 1, max: 10, 
-                              class: "flex-1 text-center text-2xl font-bold py-3 px-4 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:outline-none",
-                              id: "ticket-quantity" %>
-                          
-                          <button type="button" id="increase-qty" class="w-12 h-12 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center font-bold text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                              <path d="M5 12h14"></path>
-                              <path d="M12 5v14"></path>
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
+     
+  <!-- Ticket Selection Form -->
+  <%= form_with url: event_tickets_path(@event), method: :post, id: "ticket-form", class: "space-y-6" do |f| %>
+    <!-- Quantity Selector -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-3">Number of Tickets</label>
+      <div class="flex items-center gap-3">
+        <button type="button" id="decrease-qty" class="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 text-indigo-600 font-bold transition-colors flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+          </svg>
+        </button>
+        
+        <%= f.number_field :quantity, 
+            id: "ticket-quantity",
+            min: 1, 
+            max: 10, 
+            value: 1, 
+            class: "flex-1 text-center text-xl font-bold border-2 border-gray-200 rounded-xl py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all" %>
+        
+        <button type="button" id="increase-qty" class="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 text-indigo-600 font-bold transition-colors flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5v14"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-                      <!-- Price Breakdown -->
-                      <div class="bg-gray-50 rounded-xl p-4 space-y-3">
-                        <div class="flex items-center justify-between text-sm">
-                          <span class="text-gray-600">Price per ticket</span>
-                          <span class="font-semibold text-gray-900">$<%= @event.price %></span>
-                        </div>
-                        <div class="flex items-center justify-between text-sm">
-                          <span class="text-gray-600">Quantity</span>
-                          <span class="font-semibold text-gray-900" id="display-quantity">1</span>
-                        </div>
-                        <div class="h-px bg-gray-200"></div>
-                        <div class="flex items-center justify-between">
-                          <span class="font-semibold text-gray-900">Total Amount</span>
-                          <span class="text-2xl font-bold text-indigo-600" id="total-amount">$<%= @event.price %></span>
-                        </div>
-                      </div>
+    <!-- Price Breakdown -->
+    <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-600">Price per ticket</span>
+        <span class="font-semibold text-gray-900">$<%= @event.price %></span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-600">Quantity</span>
+        <span class="font-semibold text-gray-900" id="display-quantity">1</span>
+      </div>
+      <div class="h-px bg-gray-200"></div>
+      <div class="flex items-center justify-between">
+        <span class="font-semibold text-gray-900">Total Amount</span>
+        <span class="text-2xl font-bold text-indigo-600" id="total-amount">$<%= @event.price %></span>
+      </div>
+    </div>
 
-                      <!-- Submit Button -->
-                      <%= f.submit "Proceed to Payment", 
-                          class: "w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5" %>
-                    <% end %>
+    <!-- Submit Button -->
+    <%= f.submit "Proceed to Payment", 
+        class: "w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5",
+        data: { disable_with: "Processing..." } %>
+  <% end %>
 
-                    <!-- Trust Badges -->
-                    <div class="flex items-center justify-center gap-4 pt-4 border-t">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                      </svg>
-                      <span class="text-xs text-gray-500">Secured by Stripe</span>
-                    </div>
-                  <% end %>
+  <!-- Trust Badges -->
+  <div class="flex items-center justify-center gap-4 pt-4 border-t">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+    </svg>
+    <span class="text-xs text-gray-500">Secured by Stripe</span>
+  </div>
+
+  <script>
+    document.getElementById('ticket-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      const submitButton = form.querySelector('input[type="submit"]');
+      
+      submitButton.disabled = true;
+      submitButton.value = 'Processing...';
+      
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (data.url) {
+          window.location.href = data.url;
+        } else if (data.error) {
+          alert('Error: ' + data.error);
+          submitButton.disabled = false;
+          submitButton.value = 'Proceed to Payment';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        submitButton.disabled = false;
+        submitButton.value = 'Proceed to Payment';
+      }
+    });
+  </script>
+<% end %>
                 <% else %>
                   <!-- Not Logged In -->
                   <div class="space-y-4">
