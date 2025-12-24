@@ -5,7 +5,6 @@ class TicketsController < ApplicationController
     @event = Event.find(params[:event_id])
     quantity = params[:quantity].to_i
 
-    # Create Stripe Checkout Session
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
@@ -15,7 +14,7 @@ class TicketsController < ApplicationController
             name: @event.title,
             description: "Ticket for #{@event.title}",
           },
-          unit_amount: (@event.price * 100).to_i, # Amount in cents
+          unit_amount: (@event.price * 100).to_i, 
         },
         quantity: quantity,
       }],

@@ -1,0 +1,442 @@
+<!-- Main Homepage for Event Management System -->
+<div class="min-h-screen bg-gray-50">
+  
+  <!-- Navigation Bar -->
+  <%= render 'shared/navbar' %>
+  
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-blue-800 text-white py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+          <span>Discover Amazing Events</span>
+        </div>
+        <h1 class="text-5xl font-bold text-white mb-6">
+          Find Your Next Unforgettable Experience
+        </h1>
+        <p class="text-xl text-indigo-100 mb-8 max-w-2xl">
+          Explore thousands of events from concerts and conferences to sports and parties. 
+          Book tickets instantly and create memories that last a lifetime.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#featured-events" class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white text-indigo-600 font-semibold hover:bg-gray-100 transition">
+            Explore Events
+            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a href="/events/new" class="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-white text-white font-semibold hover:bg-white/10 transition">
+            Create Event
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="container mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">Browse by Category</h2>
+      <p class="text-xl text-gray-600">Find events that match your interests</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Sports Events Category -->
+      <a href="/events?category=sports" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1760508737418-a7add7ee3871?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Sports Events" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-orange-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Sports Events</h3>
+          <p class="text-gray-200">45 events</p>
+        </div>
+      </a>
+
+      <!-- Tech Conferences Category -->
+      <a href="/events?category=tech" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1582192730841-2a682d7375f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Tech Conferences" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-blue-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Tech Conferences</h3>
+          <p class="text-gray-200">32 events</p>
+        </div>
+      </a>
+
+      <!-- Concerts Category -->
+      <a href="/events?category=concerts" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1648260029310-5f1da359af9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Concerts" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-pink-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Concerts</h3>
+          <p class="text-gray-200">78 events</p>
+        </div>
+      </a>
+
+      <!-- Parties Category -->
+      <a href="/events?category=parties" class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+        <div class="aspect-[4/3] relative">
+          <img src="https://images.unsplash.com/photo-1759124650346-43900f8479d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Parties" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-indigo-500 rounded-lg">
+              <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-1">Parties</h3>
+          <p class="text-gray-200">56 events</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Events Section -->
+  <section id="featured-events" class="container mx-auto px-4 py-16" data-controller="events">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-3xl font-bold mb-2">Featured Events</h2>
+        <p class="text-xl text-gray-600">Don't miss out on these popular events</p>
+      </div>
+      <a href="/events" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+        View All
+        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Events Grid (Paginated) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-events-target="grid">
+      <!-- Event Card 1 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Summer Music Festival 2024" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Concerts</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/1" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">Summer Music Festival 2024</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>July 15-17, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Central Park, New York</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>1250 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$89</span>
+              <p class="text-sm text-gray-500">150 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="1" data-event-title="Summer Music Festival 2024" data-event-price="89" data-event-availability="150" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 2 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1582192730841-2a682d7375f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Tech Summit 2024" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Tech Conferences</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/2" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">Tech Summit 2024</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>August 5, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>San Francisco Convention Center</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>850 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$299</span>
+              <p class="text-sm text-gray-500">75 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="2" data-event-title="Tech Summit 2024" data-event-price="299" data-event-availability="75" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 3 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1760508737418-a7add7ee3871?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Championship Finals" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Sports Events</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/3" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">Championship Finals</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>June 22, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Madison Square Garden</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>2100 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$125</span>
+              <p class="text-sm text-gray-500">45 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="3" data-event-title="Championship Finals" data-event-price="125" data-event-availability="45" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 4 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1759124650346-43900f8479d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="New Year's Gala" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Parties</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/4" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">New Year's Gala</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>December 31, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Grand Hotel Ballroom</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>450 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$175</span>
+              <p class="text-sm text-gray-500">25 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="4" data-event-title="New Year's Gala" data-event-price="175" data-event-availability="25" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 5 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1648260029310-5f1da359af9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Jazz Night Live" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Concerts</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/5" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">Jazz Night Live</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>July 8, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Blue Note Jazz Club</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>320 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$65</span>
+              <p class="text-sm text-gray-500">80 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="5" data-event-title="Jazz Night Live" data-event-price="65" data-event-availability="80" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 6 -->
+      <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-page="1">
+        <div class="relative aspect-[16/10]">
+          <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Developer Conference" class="w-full h-full object-cover">
+          <div class="absolute top-4 right-4">
+            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Tech Conferences</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <a href="/events/6" class="block">
+            <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition">Developer Conference</h3>
+          </a>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>September 12-14, 2024</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Austin Convention Center</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span>1500 attending</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t">
+            <div>
+              <span class="text-2xl font-bold text-indigo-600">$399</span>
+              <p class="text-sm text-gray-500">200 tickets left</p>
+            </div>
+            <button data-action="click->events#openModal" data-event-id="6" data-event-title="Developer Conference" data-event-price="399" data-event-availability="200" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more event cards with data-page="2" for pagination -->
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center items-center gap-2 mt-12" data-events-target="pagination">
+      <button data-action="click->events#previousPage" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed" data-events-target="prevBtn">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      
+      <div class="flex gap-2" data-events-target="pageNumbers">
+        <!-- Page numbers will be generated dynamically -->
+      </div>
+      
+      <button data-action="click->events#nextPage" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed" data-events-target="nextBtn">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <%= render 'shared/footer' %>
+
+  <!-- Ticketing Modal -->
+  <%= render 'shared/ticketing_modal' %>
+</div>

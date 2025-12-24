@@ -6,7 +6,7 @@ class Registration < ApplicationRecord
   validates :user_id, uniqueness: { scope: :event_id, message: "already registered for this event" }
   validates :status, presence: true
 
-    after_create :send_confirmation_email_async
+  after_create :send_confirmation_email_async
 
 
   def self.ransackable_associations(auth_object = nil)
@@ -17,10 +17,6 @@ class Registration < ApplicationRecord
     ["tickets","status", "created_at", "event_id", "user_id"]
   end
 
-  validates :user_id, uniqueness: { scope: :event_id, message: "already registered for this event" }
-  validates :status, presence: true
-
-  after_create :send_confirmation_email_async
  private
 
   def send_confirmation_email_async

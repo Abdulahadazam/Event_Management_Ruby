@@ -4,7 +4,7 @@ class WebhooksController < ApplicationController
   def stripe
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = ENV['STRIPE_WEBHOOK_SECRET'] # You'll get this later
+    endpoint_secret = ENV['STRIPE_WEBHOOK_SECRET'] 
 
     begin
       event = Stripe::Webhook.construct_event(
@@ -15,11 +15,9 @@ class WebhooksController < ApplicationController
       return
     end
 
-    # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
       
-      # Create the ticket/registration
       Registration.create!(
         event_id: session.metadata.event_id,
         user_id: session.metadata.user_id,

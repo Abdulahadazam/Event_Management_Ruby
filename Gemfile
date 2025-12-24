@@ -92,6 +92,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Gemfile
+gem 'activerecord-postgis-adapter'
+gem 'rgeo'
+gem 'rgeo-geojson'
+
 gem 'dotenv-rails', groups: [:development, :test]
 gem "devise", "~> 4.9"
 gem "activeadmin"

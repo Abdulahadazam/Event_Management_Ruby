@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  # Combined events routes - ONLY ONE resources :events block
   resources :events, only: [:index, :show, :new, :create] do
     resources :registrations, only: [:create, :destroy]
     resources :tickets, only: [:create]

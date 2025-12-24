@@ -1,4 +1,232 @@
-<div>
-  <h1 class="font-bold text-4xl">Events#index</h1>
-  <p>Find me in app/views/events/index.html.erb</p>
+<div class="bg-gray-50 min-h-screen">
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="container mx-auto px-4 py-6">
+      <h1 class="text-3xl font-bold text-gray-900">
+        <% if params[:category].present? %>
+          <%= params[:category].titleize %> Events
+        <% else %>
+          All Events
+        <% end %>
+      </h1>
+      <p class="text-gray-600 mt-1">
+        Found <%= @events.length %> events
+      </p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      
+      <!-- Filters Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold">Filters</h3>
+            <% if params.slice(:search, :category, :category_id, :city, :min_price, :max_price, :radius).any? %>
+              <%= link_to "Clear All", events_path, class: "text-sm text-blue-600 hover:text-blue-800" %>
+            <% end %>
+          </div>
+          
+          <%= form_with url: events_path, method: :get, local: true, class: "space-y-6" do |f| %>
+            
+            <!-- Search -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search Events
+              </label>
+              <%= f.text_field :search, 
+                  value: params[:search],
+                  placeholder: "Search by name or location...",
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+            </div>
+            
+            <!-- Category Filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                </svg>
+                Category
+              </label>
+              <%= f.select :category_id, 
+                  options_for_select(
+                    [["All Categories", ""]] + @categories.map { |c| [c.name, c.id] },
+                    params[:category_id]
+                  ),
+                  {},
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+            </div>
+            
+            <!-- City Filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                City
+              </label>
+              <%= f.select :city,
+                  options_for_select(
+                    [["All Cities", ""]] + @cities.map { |c| [c, c] },
+                    params[:city]
+                  ),
+                  {},
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+            </div>
+            
+            <!-- Price Range -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Price Range (PKR)
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <%= f.number_field :min_price,
+                    value: params[:min_price],
+                    placeholder: "Min",
+                    min: 0,
+                    class: "px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+                <%= f.number_field :max_price,
+                    value: params[:max_price],
+                    placeholder: "Max",
+                    min: 0,
+                    class: "px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+              </div>
+            </div>
+            
+            <!-- Radius Filter -->
+            <% if @user_location.present? %>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  Distance: <%= params[:radius] || 50 %> km
+                </label>
+                <%= f.range_field :radius,
+                    value: params[:radius] || 50,
+                    min: 5,
+                    max: 200,
+                    step: 5,
+                    class: "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600",
+                    onchange: "this.previousElementSibling.innerHTML = 'Distance: ' + this.value + ' km'" %>
+                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>5 km</span>
+                  <span>200 km</span>
+                </div>
+              </div>
+            <% end %>
+            
+            <!-- Apply Button -->
+            <div>
+              <%= f.submit "Apply Filters", 
+                  class: "w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition font-medium cursor-pointer" %>
+            </div>
+            
+          <% end %>
+        </div>
+      </aside>
+      
+      <!-- Events Grid -->
+      <main class="lg:col-span-3">
+        <% if @events.empty? %>
+          <!-- Empty State -->
+          <div class="bg-white rounded-lg shadow-md p-12 text-center">
+            <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No events found</h3>
+            <p class="text-gray-600 mb-4">Try adjusting your filters or search criteria</p>
+            <%= link_to "Clear all filters", events_path, class: "text-blue-600 hover:text-blue-800 font-medium" %>
+          </div>
+        <% else %>
+          <!-- Events Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <% @events.each do |event| %>
+              <%= link_to event_path(event), class: "group" do %>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+                  <!-- Event Image -->
+                  <div class="relative aspect-[16/9] overflow-hidden bg-gray-200">
+                    <% if event.banner.attached? %>
+                      <%= image_tag event.banner, class: "w-full h-full object-cover group-hover:scale-105 transition duration-300" %>
+                    <% else %>
+                      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
+                        <span class="text-white text-4xl font-bold"><%= event.title[0] %></span>
+                      </div>
+                    <% end %>
+                    
+                    <!-- Category Badge -->
+                    <% if event.category.present? %>
+                      <div class="absolute top-3 left-3">
+                        <span class="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-900">
+                          <%= event.category.name %>
+                        </span>
+                      </div>
+                    <% end %>
+                  </div>
+                  
+                  <!-- Event Details -->
+                  <div class="p-5">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition">
+                      <%= event.title %>
+                    </h3>
+                    
+                    <div class="space-y-2 text-sm text-gray-600">
+                      <!-- Date -->
+                      <div class="flex items-center">
+                        <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <%= event.date.strftime("%b %d, %Y") %>
+                      </div>
+                      
+                      <!-- Location -->
+                      <div class="flex items-center">
+                        <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        </svg>
+                        <%= event.location %>
+                      </div>
+                      
+                      <!-- Distance (if available) -->
+                      <% if event.respond_to?(:user_distance_formatted) && event.user_distance_formatted.present? %>
+                        <div class="flex items-center text-blue-600">
+                          <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                          </svg>
+                          <%= event.user_distance_formatted %>
+                        </div>
+                      <% end %>
+                    </div>
+                    
+                    <!-- Price -->
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                      <span class="text-2xl font-bold text-gray-900">
+                        <% if event.price == 0 %>
+                          <span class="text-green-600">Free</span>
+                        <% else %>
+                          PKR <%= number_with_delimiter(event.price) %>
+                        <% end %>
+                      </span>
+                      <span class="text-blue-600 font-medium group-hover:underline">
+                        View Details →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </main>
+      
+    </div>
+  </div>
 </div>

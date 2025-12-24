@@ -4,11 +4,14 @@ import { Application } from "@hotwired/stimulus"
 
 const application = Application.start()
 
-// Import and register controllers
 import DropdownController from "./controllers/dropdown_controller"
 import EventRequestController from "./controllers/event_request_controller"
 import EventsController from "./controllers/events_controller"
+import TicketBookingController from "./controllers/ticket_booking_controller"  
+
 
 application.register("dropdown", DropdownController)
 application.register("event-request", EventRequestController)
 application.register("events", EventsController)
+application.register("ticket-booking", TicketBookingController) 
+        

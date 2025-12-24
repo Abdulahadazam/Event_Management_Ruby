@@ -64,6 +64,9 @@ GEM
       activemodel (= 8.0.4)
       activesupport (= 8.0.4)
       timeout (>= 0.4.0)
+    activerecord-postgis-adapter (11.0.0)
+      activerecord (~> 8.0.0)
+      rgeo-activerecord (~> 8.0.0)
     activestorage (8.0.4)
       actionpack (= 8.0.4)
       activejob (= 8.0.4)
@@ -210,6 +213,7 @@ GEM
     mini_portile2 (2.8.9)
     minitest (5.26.2)
     msgpack (1.8.0)
+    multi_json (1.18.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
     net-http (0.8.0)
@@ -342,6 +346,13 @@ GEM
     reverse_markdown (3.0.0)
       nokogiri
     rexml (3.4.4)
+    rgeo (3.0.1)
+    rgeo-activerecord (8.0.0)
+      activerecord (>= 7.0)
+      rgeo (>= 3.0)
+    rgeo-geojson (2.2.0)
+      multi_json (~> 1.15)
+      rgeo (>= 1.0.0)
     rubocop (1.81.7)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -463,6 +474,7 @@ PLATFORMS
 DEPENDENCIES
   active_admin_theme
   activeadmin
+  activerecord-postgis-adapter
   bootsnap
   cancancan
   capybara
@@ -476,6 +488,8 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 8.0.0)
+  rgeo
+  rgeo-geojson
   sassc-rails
   selenium-webdriver
   solargraph

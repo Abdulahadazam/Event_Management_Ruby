@@ -1,6 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  adapter: postgis
   host: localhost
   port: 5432
   username: abdulahad
@@ -18,3 +19,6 @@ test:
 production:
   <<: *default
   database: event_management_platform_production
+
+
+

@@ -36,4 +36,23 @@ if Rails.env.development?
 
   puts "✔ Seeding completed successfully!"
 end
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+# Categories
+categories = [
+  { name: 'Sports' },
+  { name: 'Tech' },
+  { name: 'Concerts' },
+  { name: 'Parties' },
+  { name: 'Conferences' },
+  { name: 'Workshops' },
+  { name: 'Networking' },
+  { name: 'Food & Drink' }
+]
+
+puts "Creating categories..."
+categories.each do |category_data|
+  category = Category.find_or_create_by(name: category_data[:name])
+  puts "Created: #{category.name}"
+end
+
+puts "Categories created successfully!"

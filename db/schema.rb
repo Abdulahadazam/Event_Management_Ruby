@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_29_144209) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_08_101329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "postgis"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -109,7 +110,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_29_144209) do
     t.integer "registrations_count", default: 0, null: false
     t.string "image_url"
     t.decimal "price", precision: 10, scale: 2
+    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.index ["category_id"], name: "index_events_on_category_id"
+    t.index ["lonlat"], name: "index_events_on_lonlat", using: :gist
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -152,6 +157,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_29_144209) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.integer "role", default: 0, null: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

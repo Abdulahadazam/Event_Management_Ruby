@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+<div class="min-h-screen bg-gray-50">
   <!-- Header -->
   <header class="border-b sticky top-0 bg-white/95 backdrop-blur-sm z-50 shadow-sm">
-    <div class="w-full px-6 sm:px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-80 transition-opacity" do %>
           <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
@@ -37,377 +37,281 @@
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="py-8">
-    <div class="w-full px-6 sm:px-8 lg:px-16 max-w-7xl mx-auto">
-      <!-- Back Button -->
-      <div class="mb-6">
-        <%= link_to root_path, class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
-            <path d="m15 18-6-6 6-6"></path>
-          </svg>
-          <span class="font-medium">Back to Events</span>
+  <!-- Banner Section -->
+  <div class="w-full bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl group">
+        <% if @event.banner.attached? %>
+          <%= image_tag @event.banner, alt: @event.title, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" %>
+        <% elsif @event.image_url.present? %>
+          <%= image_tag @event.image_url, alt: @event.title, class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" %>
+        <% else %>
+          <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-900 to-purple-900">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="opacity-30">
+              <path d="M8 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+              <path d="M3 10h18"></path>
+            </svg>
+          </div>
         <% end %>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Left Column - Event Details -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- Event Image & Header -->
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <!-- Hero Image -->
-            <div class="relative h-[400px] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-              <% if @event.image_url.present? %>
-                <%= image_tag @event.image_url, alt: @event.title, class: "w-full h-full object-cover" %>
-              <% elsif @event.banner.attached? %>
-                <%= image_tag @event.banner_url, alt: @event.title, class: "w-full h-full object-cover" %>
-              <% else %>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-50">
-                    <path d="M8 2v4"></path>
-                    <path d="M16 2v4"></path>
-                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                    <path d="M3 10h18"></path>
-                  </svg>
-                </div>
-              <% end %>
-              
-              <!-- Category Badge -->
-              <div class="absolute top-4 left-4">
-                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
-                  <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
-                  <span class="text-sm font-semibold text-gray-900"><%= @event.category %></span>
-                </span>
-              </div>
-
-              <!-- Attendees Badge -->
-              <div class="absolute top-4 right-4">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
-                  <span class="text-sm font-semibold text-gray-900"><%= @event.registrations_count %> attending</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Event Info -->
-            <div class="p-8">
-              <h1 class="text-4xl font-bold text-gray-900 mb-4"><%= @event.title %></h1>
-              <p class="text-lg text-gray-600 leading-relaxed"><%= @event.description %></p>
-            </div>
-          </div>
-
-          <!-- Event Details Card -->
-          <div class="bg-white rounded-2xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Event Details</h2>
-            
-            <div class="space-y-6">
-              <!-- Date & Time -->
-              <div class="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M8 2v4"></path>
-                    <path d="M16 2v4"></path>
-                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                    <path d="M3 10h18"></path>
-                  </svg>
-                </div>
-                <div class="flex-1">
-                  <h3 class="font-semibold text-gray-900 mb-1">Date & Time</h3>
-                  <% if @event.date.present? %>
-                    <p class="text-gray-700 font-medium"><%= @event.date.strftime("%A, %B %d, %Y") %></p>
-                    <p class="text-gray-600"><%= @event.date.strftime("%I:%M %p") %></p>
-                  <% else %>
-                    <p class="text-gray-500">Date to be announced</p>
-                  <% end %>
-                </div>
-              </div>
-
-              <!-- Location -->
-              <div class="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </div>
-                <div class="flex-1">
-                  <h3 class="font-semibold text-gray-900 mb-1">Location</h3>
-                  <p class="text-gray-700"><%= @event.location %></p>
-                </div>
-              </div>
-
-              <!-- Price -->
-              <div class="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" x2="12" y1="2" y2="22"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                  </svg>
-                </div>
-                <div class="flex-1">
-                  <h3 class="font-semibold text-gray-900 mb-1">Ticket Price</h3>
-                  <p class="text-2xl font-bold text-gray-900">$<%= @event.price %></p>
-                  <p class="text-sm text-gray-600">per person</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Additional Info -->
-          <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl shadow-lg p-8 text-white">
-            <h2 class="text-2xl font-bold mb-4">What to Expect</h2>
-            <ul class="space-y-3">
-              <li class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
-                  <path d="M9 12l2 2 4-4"></path>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                <span>Digital ticket with QR code sent via email</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
-                  <path d="M9 12l2 2 4-4"></path>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                <span>Instant confirmation after payment</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
-                  <path d="M9 12l2 2 4-4"></path>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                <span>Secure payment processing via Stripe</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
-                  <path d="M9 12l2 2 4-4"></path>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                <span>Access to event updates and announcements</span>
-              </li>
-            </ul>
-          </div>
+        
+        <!-- Dark Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-transparent to-transparent"></div>
+        
+        <!-- Back Button -->
+        <div class="absolute top-6 left-6 z-10">
+          <%= link_to root_path, class: "inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors bg-black/30 hover:bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+            <span class="font-medium text-sm">Back to Events</span>
+          <% end %>
         </div>
-
-        <!-- Right Column - Ticket Booking -->
-        <div class="lg:col-span-1">
-          <div class="sticky top-24">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-              <!-- Header -->
-              <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
-                <h2 class="text-2xl font-bold mb-2">Book Your Tickets</h2>
-                <p class="text-indigo-100">Secure your spot now!</p>
-              </div>
-
-              <div class="p-6 space-y-6">
-                <% if user_signed_in? %>
-                  <% if @event.registered?(current_user) %>
-                    <!-- Already Registered -->
-                    <div class="space-y-4">
-                      <div class="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-6 text-center">
-                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600">
-                            <path d="M9 12l2 2 4-4"></path>
-                            <circle cx="12" cy="12" r="10"></circle>
-                          </svg>
-                        </div>
-                        <h3 class="text-lg font-bold text-emerald-900 mb-2">You're All Set!</h3>
-                        <p class="text-emerald-700">You're registered for this event</p>
-                      </div>
-
-                      <%= link_to "#", class: "block w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors text-center shadow-lg" do %>
-                        View My Tickets
-                      <% end %>
-
-                      <%= button_to "Cancel Registration", event_registration_path(@event, @event.registrations.find_by(user: current_user)), method: :delete, 
-                          class: "w-full bg-white hover:bg-red-50 text-red-600 font-medium py-3 px-6 rounded-xl transition-colors border-2 border-red-200",
-                          data: { confirm: "Are you sure you want to cancel your registration?" } %>
-                    </div>
-                  <% else %>
-     
-  <!-- Ticket Selection Form -->
-  <%= form_with url: event_tickets_path(@event), method: :post, id: "ticket-form", class: "space-y-6" do |f| %>
-    <!-- Quantity Selector -->
-    <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-3">Number of Tickets</label>
-      <div class="flex items-center gap-3">
-        <button type="button" id="decrease-qty" class="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 text-indigo-600 font-bold transition-colors flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"></path>
-          </svg>
-        </button>
-        
-        <%= f.number_field :quantity, 
-            id: "ticket-quantity",
-            min: 1, 
-            max: 10, 
-            value: 1, 
-            class: "flex-1 text-center text-xl font-bold border-2 border-gray-200 rounded-xl py-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all" %>
-        
-        <button type="button" id="increase-qty" class="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 text-indigo-600 font-bold transition-colors flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"></path>
-            <path d="M12 5v14"></path>
-          </svg>
-        </button>
       </div>
     </div>
-
-    <!-- Price Breakdown -->
-    <div class="bg-gray-50 rounded-xl p-4 space-y-3">
-      <div class="flex items-center justify-between text-sm">
-        <span class="text-gray-600">Price per ticket</span>
-        <span class="font-semibold text-gray-900">$<%= @event.price %></span>
-      </div>
-      <div class="flex items-center justify-between text-sm">
-        <span class="text-gray-600">Quantity</span>
-        <span class="font-semibold text-gray-900" id="display-quantity">1</span>
-      </div>
-      <div class="h-px bg-gray-200"></div>
-      <div class="flex items-center justify-between">
-        <span class="font-semibold text-gray-900">Total Amount</span>
-        <span class="text-2xl font-bold text-indigo-600" id="total-amount">$<%= @event.price %></span>
-      </div>
-    </div>
-
-    <!-- Submit Button -->
-    <%= f.submit "Proceed to Payment", 
-        class: "w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-xl shadow-indigo-500/30 hover:shadow-2xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5",
-        data: { disable_with: "Processing..." } %>
-  <% end %>
-
-  <!-- Trust Badges -->
-  <div class="flex items-center justify-center gap-4 pt-4 border-t">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
-      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-    </svg>
-    <span class="text-xs text-gray-500">Secured by Stripe</span>
   </div>
 
-  <script>
-    document.getElementById('ticket-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
-      const form = e.target;
-      const formData = new FormData(form);
-      const submitButton = form.querySelector('input[type="submit"]');
-      
-      submitButton.disabled = true;
-      submitButton.value = 'Processing...';
-      
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-          }
-        });
+      <!-- Left Column: Event Details -->
+      <div class="lg:col-span-2 space-y-6">
         
-        const data = await response.json();
-        
-        if (data.url) {
-          window.location.href = data.url;
-        } else if (data.error) {
-          alert('Error: ' + data.error);
-          submitButton.disabled = false;
-          submitButton.value = 'Proceed to Payment';
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
-        submitButton.disabled = false;
-        submitButton.value = 'Proceed to Payment';
-      }
-    });
-  </script>
-<% end %>
-                <% else %>
-                  <!-- Not Logged In -->
-                  <div class="space-y-4">
-                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600 mx-auto mb-2">
-                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
-                        <path d="M12 9v4"></path>
-                        <path d="M12 17h.01"></path>
-                      </svg>
-                      <p class="text-sm text-amber-800 font-medium">Please log in to book tickets</p>
-                    </div>
+        <!-- Title & Core Info Card -->
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold border border-indigo-100">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+              <%= @event.category %>
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <%= @event.registrations_count || 0 %> attending
+            </span>
+          </div>
 
-                    <%= link_to "Log In to Continue", new_user_session_path, 
-                        class: "block w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all text-center shadow-lg" %>
-                    
-                    <p class="text-sm text-gray-500 text-center">
-                      Don't have an account? 
-                      <%= link_to "Sign up", new_user_registration_path, class: "text-indigo-600 hover:text-indigo-700 font-semibold" %>
-                    </p>
-                  </div>
+          <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
+            <%= @event.title %>
+          </h1>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
+            <!-- Date -->
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                  <path d="M16 2v4"></path>
+                  <path d="M8 2v4"></path>
+                  <path d="M3 10h18"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Date & Time</h3>
+                <% if @event.date.present? %>
+                  <p class="text-gray-900 font-medium mt-0.5"><%= @event.date.strftime("%B %d, %Y") %></p>
+                  <p class="text-gray-500 text-sm"><%= @event.date.strftime("%A at %I:%M %p") %></p>
+                <% else %>
+                  <p class="text-gray-500 italic">To be announced</p>
                 <% end %>
               </div>
             </div>
-
-            <!-- Help Section -->
-            <div class="mt-6 bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-              <h3 class="font-semibold text-gray-900 mb-3">Need Help?</h3>
-              <p class="text-sm text-gray-600 mb-4">Have questions about this event? We're here to help!</p>
-              <button class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            
+            <!-- Location -->
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                Contact Support
-              </button>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Location</h3>
+                <p class="text-gray-900 font-medium mt-0.5"><%= @event.location %></p>
+                <% if @event.latitude.present? %>
+                  <a href="#map-section" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold inline-flex items-center gap-1 mt-1">
+                    View Map
+                  </a>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Description -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">About the Event</h2>
+          <div class="prose prose-indigo max-w-none text-gray-600 leading-relaxed">
+            <%= simple_format @event.description %>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 p-6 rounded-2xl">
+            <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900">Instant Access</h3>
+            <p class="text-sm text-gray-600 mt-1">Digital tickets sent immediately to your email</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-white border border-purple-100 p-6 rounded-2xl">
+            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900">Secure Payment</h3>
+            <p class="text-sm text-gray-600 mt-1">Encrypted transactions for your privacy</p>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <% if @event.latitude.present? && @event.longitude.present? %>
+          <div id="map-section" class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+              <h2 class="text-lg font-bold text-gray-900">Venue Location</h2>
+              <a href="https://www.google.com/maps/search/?api=1&query=<%= @event.latitude %>,<%= @event.longitude %>" target="_blank" class="text-sm font-medium text-indigo-600 hover:text-indigo-700">Open in Maps &rarr;</a>
+            </div>
+            <div id="event-map" class="h-[350px] bg-gray-100" data-latitude="<%= @event.latitude %>" data-longitude="<%= @event.longitude %>"></div>
+          </div>
+        <% end %>
+
       </div>
+
+      <!-- Right Column: Booking Card -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-24" data-controller="ticket-booking" data-ticket-booking-price-value="<%= @event.price %>">
+          
+          <!-- Price Card -->
+          <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 mb-4">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Price per ticket</p>
+                <p class="text-4xl font-extrabold text-gray-900 mt-1">$<%= @event.price %></p>
+              </div>
+              <% if @event.price == 0 %>
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wide">Free</span>
+              <% end %>
+            </div>
+            
+            <% if user_signed_in? %>
+              <% if @event.registered?(current_user) %>
+                <div data-ticket-booking-target="registrationCard" class="space-y-4">
+                  <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-bold text-emerald-900">Registered</p>
+                      <p class="text-xs text-emerald-700">You are attending this event</p>
+                    </div>
+                  </div>
+                  
+                  <button data-action="click->ticket-booking#showBookingForm" class="w-full py-4 px-6 bg-gray-900 hover:bg-black text-white rounded-xl font-bold shadow-lg shadow-gray-200 transition-all hover:-translate-y-0.5">
+                    Buy Tickets
+                  </button>
+                  
+                  <div class="grid grid-cols-2 gap-3">
+                    <%= link_to "My Tickets", "#", class: "py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold text-sm text-center transition-colors" %>
+                    <%= button_to "Cancel", event_registration_path(@event, @event.registrations.find_by(user: current_user)), method: :delete, class: "w-full h-full py-3 px-4 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-100 text-gray-500 hover:text-red-600 rounded-xl font-semibold text-sm transition-colors", data: { confirm: "Cancel registration?" } %>
+                  </div>
+                </div>
+
+                <!-- Hidden Booking Form -->
+                <div data-ticket-booking-target="bookingForm" class="hidden space-y-6">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900">Select Tickets</h3>
+                    <button type="button" data-action="click->ticket-booking#cancelBooking" class="text-sm text-gray-500 hover:text-gray-900 underline">Cancel</button>
+                  </div>
+                  
+                  <%= form_with url: event_tickets_path(@event), method: :post, data: { action: "submit->ticket-booking#submitForm" }, class: "space-y-6" do |f| %>
+                    <div class="p-1 border border-gray-200 rounded-2xl flex items-center justify-between bg-gray-50">
+                      <button type="button" data-action="click->ticket-booking#decreaseQuantity" class="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+                      </button>
+                      
+                      <%= f.number_field :quantity, data: { ticket_booking_target: "quantity", action: "input->ticket-booking#onQuantityChange" }, min: 1, max: 10, value: 1, class: "w-20 text-center bg-transparent border-none text-xl font-bold text-gray-900 focus:ring-0 p-0" %>
+                      
+                      <button type="button" data-action="click->ticket-booking#increaseQuantity" class="w-12 h-12 flex items-center justify-center text-indigo-600 hover:text-indigo-700 bg-white shadow-sm rounded-xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                      </button>
+                    </div>
+                    
+                    <div class="bg-indigo-50 rounded-xl p-4 flex items-center justify-between">
+                      <span class="text-indigo-900 font-medium">Total</span>
+                      <span class="text-2xl font-bold text-indigo-600" data-ticket-booking-target="totalAmount">$<%= @event.price %></span>
+                    </div>
+                    
+                    <%= f.submit "Pay with Stripe", class: "w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all transform active:scale-95" %>
+                  <% end %>
+                </div>
+
+              <% else %>
+                <!-- Not Registered -->
+                <div class="space-y-4">
+                  <%= button_to "Register Now", event_registrations_path(@event), method: :post, class: "w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all hover:shadow-xl hover:-translate-y-0.5" %>
+                  <p class="text-center text-gray-500 text-xs">Register to access ticket purchasing</p>
+                </div>
+              <% end %>
+            <% else %>
+              <!-- Guest State -->
+              <div class="bg-gray-50 rounded-xl p-5 mb-4 border border-gray-100 text-center">
+                <p class="text-gray-900 font-medium mb-3">Join to book tickets</p>
+                <div class="grid grid-cols-2 gap-3">
+                  <%= link_to "Log In", new_user_session_path, class: "py-2.5 px-4 bg-white border border-gray-200 text-gray-700 rounded-lg font-semibold text-sm hover:border-gray-300 transition-colors" %>
+                  <%= link_to "Sign Up", new_user_registration_path, class: "py-2.5 px-4 bg-gray-900 text-white rounded-lg font-semibold text-sm hover:bg-black transition-colors" %>
+                </div>
+              </div>
+            <% end %>
+
+          </div>
+          
+          <!-- Help Card -->
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">Questions?</p>
+              <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Contact Organizer</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </main>
 </div>
 
+<!-- Map Script -->
 <script>
-  // Ticket quantity calculator
-  document.addEventListener('DOMContentLoaded', function() {
-    const quantityInput = document.getElementById('ticket-quantity');
-    const decreaseBtn = document.getElementById('decrease-qty');
-    const increaseBtn = document.getElementById('increase-qty');
-    const displayQuantity = document.getElementById('display-quantity');
-    const totalAmount = document.getElementById('total-amount');
-    const pricePerTicket = <%= @event.price %>;
-
-    function updateTotal() {
-      const quantity = parseInt(quantityInput.value) || 1;
-      displayQuantity.textContent = quantity;
-      totalAmount.textContent = '$' + (pricePerTicket * quantity).toFixed(2);
-    }
-
-    if (decreaseBtn) {
-      decreaseBtn.addEventListener('click', function() {
-        const currentValue = parseInt(quantityInput.value) || 1;
-        if (currentValue > 1) {
-          quantityInput.value = currentValue - 1;
-          updateTotal();
-        }
-      });
-    }
-
-    if (increaseBtn) {
-      increaseBtn.addEventListener('click', function() {
-        const currentValue = parseInt(quantityInput.value) || 1;
-        if (currentValue < 10) {
-          quantityInput.value = currentValue + 1;
-          updateTotal();
-        }
-      });
-    }
-
-    if (quantityInput) {
-      quantityInput.addEventListener('input', updateTotal);
-    }
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  const mapElement = document.getElementById('event-map');
+  if (mapElement && typeof L !== 'undefined') {
+    const lat = parseFloat(mapElement.dataset.latitude);
+    const lng = parseFloat(mapElement.dataset.longitude);
+    
+    const map = L.map('event-map').setView([lat, lng], 15);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    L.marker([lat, lng]).addTo(map)
+      .bindPopup('<b>Event Location</b>')
+      .openPopup();
+  }
+});
 </script>
