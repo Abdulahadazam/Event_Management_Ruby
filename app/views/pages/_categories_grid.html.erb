@@ -1,0 +1,36 @@
+<section class="mx-auto max-w-6xl px-4 py-16">
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold mb-2">Browse by Category</h2>
+    <p class="text-xl text-gray-600">Find events that match your interests</p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <%= render 'pages/category_card', 
+               name: 'Sports Events',
+               category: 'sports',
+               image: 'https://images.unsplash.com/photo-1760508737418-a7add7ee3871?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+               icon: 'sports',
+               color: 'orange' %>
+
+    <%= render 'pages/category_card',
+               name: 'Tech Conferences',
+               category: 'tech',
+               image: 'https://images.unsplash.com/photo-1582192730841-2a682d7375f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+               icon: 'tech',
+               color: 'blue' %>
+
+    <%= render 'pages/category_card',
+               name: 'Concerts',
+               category: 'concerts',
+               image: 'https://images.unsplash.com/photo-1648260029310-5f1da359af9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+               icon: 'music',
+               color: 'pink' %>
+
+    <%= render 'pages/category_card',
+               name: 'Parties',
+               category: 'parties',
+               image: 'https://images.unsplash.com/photo-1759124650346-43900f8479d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+               icon: 'party',
+               color: 'indigo' %>
+  </div>
+</section>
