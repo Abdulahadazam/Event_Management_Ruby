@@ -1,0 +1,42 @@
+<%= link_to events_path(category: category),
+            class: "group relative overflow-hidden rounded-xl shadow-lg
+                    transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" do %>
+  <div class="relative aspect-[4/3]">
+    <%= image_tag image,
+                  alt: name,
+                  class: "h-full w-full object-cover" %>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 p-6">
+    <div class="mb-2 flex items-center gap-3">
+      <div class="rounded-lg bg-<%= color %>-500 p-2">
+        <!-- Icon will be inline SVG based on type -->
+        <% if icon == 'sports' %>
+          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+          </svg>
+        <% elsif icon == 'tech' %>
+          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        <% elsif icon == 'music' %>
+          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        <% elsif icon == 'party' %>
+          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        <% end %>
+      </div>
+    </div>
+    <h3 class="mb-1 text-xl font-bold text-white"><%= name %></h3>
+    <p class="text-gray-200">
+      <%= Event.joins(:category).where(categories: { name: category.titleize }).count %> events
+    </p>
+  </div>
+<% end %>
