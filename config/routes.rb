@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root "pages#home"
 
   devise_for :users, controllers: {
+    registrations: 'users/devise_registrations',
+    confirmations: 'users/confirmations',
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
