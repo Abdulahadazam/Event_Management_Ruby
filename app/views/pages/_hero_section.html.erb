@@ -1,0 +1,39 @@
+<section class="bg-gradient-to-br from-indigo-100 to-indigo-50 py-16 border-b border-indigo-100">
+  <div class="w-full px-8 sm:px-16 lg:px-24">
+    <div class="max-w-3xl mx-auto text-center space-y-6">
+      <h2 class="text-4xl font-bold text-gray-900 tracking-tight">Discover Amazing Events</h2>
+      <p class="text-gray-600 text-xl max-w-2xl mx-auto">
+        Browse thousands of events and experiences. Find your next adventure today.
+      </p>
+
+      <div class="flex flex-col md:flex-row gap-4 mt-8 max-w-2xl mx-auto">
+        <div class="flex-1 relative group">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input 
+            type="text" 
+            placeholder="Search events..." 
+            data-events-target="search"
+            data-action="input->events#filterEvents"
+            class="w-full h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 pl-10 text-base outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
+          />
+        </div>
+        <select 
+          data-events-target="category"
+          data-action="change->events#filterEvents"
+          class="md:w-48 h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm cursor-pointer"
+        >
+          <option value="all">All Categories</option>
+          <option value="Music">Music</option>
+          <option value="Technology">Technology</option>
+          <option value="Food & Drink">Food & Drink</option>
+          <option value="Art">Art</option>
+          <option value="Sports">Sports</option>
+          <option value="Comedy">Comedy</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
