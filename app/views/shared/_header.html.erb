@@ -1,0 +1,41 @@
+<header class="border-b sticky top-0 bg-indigo-500 text-white z-20 shadow-md">
+  <div class="w-full px-4 sm:px-8 lg:px-16">
+    <div class="flex items-center justify-between h-16">
+      
+      <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-90 transition-opacity flex-shrink-0" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+          <path d="M2 9a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3"></path>
+          <path d="M2 9h20"></path>
+          <path d="M2 9v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9"></path>
+          <path d="M7 21v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
+        </svg>
+        <h1 class="text-xl sm:text-2xl font-semibold text-white">EventHub</h1>
+      <% end %>
+
+      <nav class="hidden md:flex items-center gap-3 flex-shrink-0">
+        <%= link_to "Browse Events", events_path, class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-9 px-3 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+        <% if user_signed_in? %>
+          <%= link_to "My Tickets", "#", class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-9 px-3 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+        <% end %>
+        <%= link_to "About", about_path, class: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-9 px-3 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" %>
+      </nav>
+
+      <div class="flex items-center gap-2 flex-shrink-0">  
+        
+        <%= link_to new_event_request_path, class: "hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-9 px-3 bg-white text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5v14"></path>
+          </svg>
+          <span>Request Event</span>
+        <% end %>
+        
+        <% if user_signed_in? %>
+          <%= render 'shared/profile_dropdown' %>
+        <% else %>
+          <%= render 'shared/auth_buttons' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>
