@@ -1,9 +1,14 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
+         :confirmable,  
          :omniauthable, omniauth_providers: [:google_oauth2]
+         
+
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
+
+  validate :password_complexity
 
   has_many :registrations
   has_many :events, through: :registrations
@@ -23,5 +28,15 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.password = SecureRandom.hex(10)
     end
+  end
+
+  private
+
+  def password_complexity
+    return if password.blank?
+
+    errors.add :password, 'must start with a capital letter' unless password.match?(/^[A-Z]/)
+    errors.add :password, 'must be at least 8 characters' unless password.length >= 8
+    errors.add :password, 'cannot contain sequential numbers like 123 or 321' if password.match?(/123|234|345|456|567|678|789|321|432|543|654|765|876|987/)
   end
 end
