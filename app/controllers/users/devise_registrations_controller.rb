@@ -1,0 +1,45 @@
+
+class Users::DeviseRegistrationsController < Devise::RegistrationsController
+  skip_before_action :verify_authenticity_token, only: [:create]
+  
+  before_action :configure_sign_up_params, only: [:create]
+
+  
+  def create
+    build_resource(sign_up_params)
+
+    resource.save
+    yield resource if block_given?
+    
+    if resource.persisted?
+      if resource.active_for_authentication?
+        # User doesn't need confirmation (shouldn't happen with confirmable enabled)
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        # User needs to confirm email - show check email page
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        render 'check_email'  # Render the check email template instead of redirecting
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
+
+ 
+  
+  protected
+  
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+  end
+
+
+   def after_sign_up_path_for(resource)
+    root_path
+  end
+end

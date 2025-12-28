@@ -1,0 +1,54 @@
+<!-- app/views/users/devise_registrations/check_email.html.erb -->
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-green-600 to-teal-600 px-12 py-8 text-center">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold text-white mt-4">Check Your Email</h2>
+      </div>
+
+      <!-- Body -->
+      <div class="px-12 py-8">
+        <div class="text-center">
+          <p class="text-gray-700 text-lg mb-4 font-semibold">
+            We've sent a confirmation link to your email address.
+          </p>
+          <p class="text-gray-600 text-sm mb-6">
+            Please check your inbox and click the link to verify your account.
+          </p>
+          
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <svg class="h-5 w-5 text-blue-500 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+            <p class="text-sm text-blue-800">
+              <strong>Didn't receive the email?</strong><br>
+              Check your spam folder or wait a few minutes.
+            </p>
+          </div>
+
+          <%= link_to "Go to Login Page", new_user_session_path, 
+              class: "inline-block w-full py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="bg-gray-50 px-12 py-4 text-center">
+        <%= link_to root_path, class: "text-gray-600 hover:text-indigo-600 text-sm font-medium inline-flex items-center" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+            <path d="m12 19-7-7 7-7"></path>
+            <path d="M19 12H5"></path>
+          </svg>
+          Back to EventHub
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

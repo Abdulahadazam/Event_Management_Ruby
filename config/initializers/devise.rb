@@ -35,6 +35,11 @@ Devise.setup do |config|
   # Sign out via DELETE request
   config.sign_out_via = :delete
 
+
+  config.navigational_formats = ['*/*', :html, :turbo_stream]
+  config.allow_unconfirmed_access_for = 0.days
+
+
   #
   # GOOGLE OAUTH (SAFE VERSION)
   # These ENV variables must be in your .env file (not in repo)

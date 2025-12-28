@@ -1,12 +1,19 @@
+
 class ApplicationController < ActionController::Base
   
-  protect_from_forgery with: :exception
+  allow_browser versions: :modern
+  
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  
-  helper_method :current_user
+  protected
 
-   allow_browser versions: :modern
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+  end
   
-  
-  skip_forgery_protection if: -> { request.path.start_with?('/users/auth/') }
+  # Redirect to homepage (localhost:3000) after successful login
+  def after_sign_in_path_for(resource)
+    root_path
+  end
 end
