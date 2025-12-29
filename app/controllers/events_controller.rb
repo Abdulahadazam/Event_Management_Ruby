@@ -14,7 +14,6 @@ class EventsController < ApplicationController
   
   
   def show
-    # Geocode event location if coordinates are missing
     if @event.location.present? && !@event.has_coordinates?
       Events::GeocodingService.geocode_and_update(@event)
     end
