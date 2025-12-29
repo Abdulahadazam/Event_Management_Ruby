@@ -14,8 +14,8 @@ export default class extends Controller {
     modal.className = 'fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm'
     modal.innerHTML = `
       <div class="relative w-full h-full flex items-center justify-center p-4">
-        <button 
-          data-action="click->map-modal#close"
+        <button
+          id="map-close-button"
           class="absolute top-4 right-4 z-[10000] bg-white hover:bg-gray-100 text-gray-900 rounded-full p-3 shadow-lg transition-all hover:scale-110"
           aria-label="Close map"
         >
@@ -31,6 +31,23 @@ export default class extends Controller {
     `
     document.body.appendChild(modal)
     this.modalElement = modal
+
+    // Add event listener directly to the close button
+    const closeButton = modal.querySelector('#map-close-button')
+    if (closeButton) {
+      closeButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        this.close()
+      })
+    }
+
+    // Also close when clicking the backdrop
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        this.close()
+      }
+    })
   }
   
   open(event) {
