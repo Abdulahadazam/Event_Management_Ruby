@@ -18,12 +18,37 @@ class WebhooksController < ApplicationController
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
       
-      Registration.create!(
-        event_id: session.metadata.event_id,
-        user_id: session.metadata.user_id,
-        quantity: session.metadata.quantity,
-        payment_status: 'paid'
-      )
+      begin
+        event_obj = Event.find(session.metadata['event_id'])
+        user = User.find(session.metadata['user_id'])
+        quantity = session.metadata['quantity'].to_i
+        ticket_type = session.metadata['ticket_type'] || 'Standard'
+        total_amount = session.metadata['total_amount']&.to_f || (event_obj.price * quantity)
+        registration = user.registrations.find_by(event: event_obj)
+        
+        if registration
+          # Create ticket record (email will be sent automatically via after_create callback)
+          ticket = Ticket.create!(
+            user: user,
+            event: event_obj,
+            registration: registration,
+            quantity: quantity,
+            ticket_type: ticket_type,
+            total_amount: total_amount,
+            status: 'paid',
+            payment_method: 'stripe',
+            payment_id: session.id
+          )
+          
+          Rails.logger.info "Ticket created successfully: #{ticket.id} for user #{user.id}, event #{event_obj.id}"
+        else
+          Rails.logger.error "Registration not found for user #{user.id} and event #{event_obj.id}"
+        end
+      rescue => e
+        Rails.logger.error "Error processing webhook: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        # Still return 200 to prevent Stripe from retrying
+      end
     end
 
     render json: { message: 'Success' }, status: 200
