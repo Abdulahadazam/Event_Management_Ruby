@@ -1,129 +1,130 @@
 <!-- app/views/devise/sessions/new.html.erb -->
-<div class="flex min-h-screen items-center justify-center bg-gray-100 py-12 px-4">
-  <div class="w-full max-w-md space-y-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/30 py-10 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
 
-    <div class="text-center">
-      <h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-        Sign in to your account
-      </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Or
-        <%= link_to "create a free account", new_user_registration_path, class: "font-medium text-indigo-600 hover:text-indigo-500" %>
-      </p>
-    </div>
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-orange-500 via-indigo-600 to-purple-600 px-8 py-8 text-center relative overflow-hidden">
+        <!-- Animated background -->
+        <div class="absolute inset-0 bg-gradient-to-r from-orange-400/20 via-transparent to-purple-400/20 animate-pulse"></div>
 
-    <div class="bg-white rounded-lg shadow p-8 space-y-6">
-
-      <!-- Flash Messages -->
-      <% if alert %>
-        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-          <div class="flex">
-            <svg class="h-5 w-5 text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+        <%= link_to root_path, class: "inline-block mb-3 relative z-10" do %>
+          <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-xl transform hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-600">
+              <path d="M8 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+              <path d="M3 10h18"></path>
             </svg>
-            <p class="ml-3 text-sm text-red-700"><%= alert %></p>
           </div>
-        </div>
-      <% end %>
-
-      <% if notice %>
-        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-          <div class="flex">
-            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="ml-3 text-sm text-green-700"><%= notice %></p>
-          </div>
-        </div>
-      <% end %>
-
-      <!-- Login Form with Email Validation -->
-      <%= form_for(resource,
-                  as: resource_name,
-                  url: session_path(resource_name),
-                  html: { class: "space-y-6", data: { turbo: false } }) do |f| %>
-
-        <!-- Email Field with Validation -->
-        <!-- data-controller="email-validation" → Activates the email validation controller -->
-        <div data-controller="email-validation">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Email address
-          </label>
-          <%= f.email_field :email,
-                autofocus: true,
-                required: true,
-                data: { 
-                  email_validation_target: "email",                # ← Mark this as the "email" target
-                  action: "input->email-validation#validate"       # ← On "input" event, run validate() method
-                },
-                class: "block w-full mx-0 rounded-md border border-gray-300 px-3 py-2
-                        shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition" %>
-          
-          <!-- Email validation error (controlled by Stimulus) -->
-          <p class="mt-2 text-xs text-red-600 hidden flex items-center" data-email-validation-target="error">
-            <svg class="w-4 h-4 inline mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-            Please enter a valid email address
-          </p>
-        </div>
-
-        <!-- Password Field -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
-          <%= f.password_field :password,
-                autocomplete: 'current-password',
-                required: true,
-                class: "block w-full mx-0 rounded-md border border-gray-300 px-3 py-2
-                        shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-        </div>
-
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <%= f.check_box :remember_me, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
-            <label class="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
-          </div>
-          
-          <div class="text-sm">
-            <%= link_to "Forgot your password?",
-                new_user_password_path,
-                class: "text-indigo-600 hover:text-indigo-500" %>
-          </div>
-        </div>
-
-        <!-- Login Button -->
-        <div>
-          <%= f.submit "Sign In",
-                class: "w-full flex justify-center rounded-md bg-indigo-600 py-2.5 px-4
-                        text-sm font-semibold text-white shadow-sm hover:bg-indigo-700
-                        focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer transition" %>
-        </div>
-
-      <% end %>
-
-      <!-- Divider -->
-      <div class="relative">
-        <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300"></div>
-        </div>
-        <div class="relative flex justify-center text-sm">
-          <span class="bg-white px-2 text-gray-500">Or continue with</span>
-        </div>
+        <% end %>
+        <h2 class="text-3xl font-bold text-white mt-4 relative z-10">Welcome Back</h2>
+        <p class="mt-1 text-orange-100 text-sm relative z-10">Sign in to continue to EventHub</p>
       </div>
 
-      <!-- Google Sign In -->
-      <div>
+      <!-- Body -->
+      <div class="px-8 py-8">
+
+        <!-- Flash Messages -->
+        <% if alert %>
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-6">
+            <div class="flex items-start">
+              <svg class="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+              <p class="text-sm text-red-700"><%= alert %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if notice %>
+          <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-6">
+            <div class="flex items-start">
+              <svg class="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <p class="text-sm text-green-700"><%= notice %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Login Form with Email Validation -->
+        <%= form_for(resource,
+                    as: resource_name,
+                    url: session_path(resource_name),
+                    html: { class: "space-y-5", data: { turbo: false } }) do |f| %>
+
+          <!-- Email Field with Validation -->
+          <div data-controller="email-validation">
+            <%= f.label :email, "Email Address", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+            <%= f.email_field :email,
+                  autofocus: true,
+                  required: true,
+                  placeholder: "Enter your email",
+                  data: {
+                    email_validation_target: "email",
+                    action: "input->email-validation#validate"
+                  },
+                  style: "width: 100%;",
+                  class: "px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm" %>
+
+            <!-- Email validation error (controlled by Stimulus) -->
+            <p class="mt-2 text-xs text-red-600 hidden flex items-center" data-email-validation-target="error">
+              <svg class="w-4 h-4 inline mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              Please enter a valid email address
+            </p>
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <%= f.label :password, "Password", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+            <%= f.password_field :password,
+                  autocomplete: 'current-password',
+                  required: true,
+                  placeholder: "Enter your password",
+                  style: "width: 100%;",
+                  class: "px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm" %>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <%= f.check_box :remember_me, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+              <%= f.label :remember_me, "Remember me", class: "ml-2 block text-sm text-gray-700" %>
+            </div>
+
+            <div class="text-sm">
+              <%= link_to "Forgot password?",
+                  new_user_password_path,
+                  class: "text-indigo-600 hover:text-indigo-700 font-medium" %>
+            </div>
+          </div>
+
+          <!-- Login Button -->
+          <div class="pt-2">
+            <%= f.submit "Sign In",
+                  class: "w-full py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-orange-500 via-indigo-600 to-purple-600 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all cursor-pointer shadow-lg transform hover:scale-[1.02] animated-gradient" %>
+          </div>
+
+        <% end %>
+
+        <!-- Divider -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center">
+            <span class="px-4 bg-white text-gray-500 text-sm">or continue with</span>
+          </div>
+        </div>
+
+        <!-- Google Sign In -->
         <form action="<%= user_google_oauth2_omniauth_authorize_path %>" method="post" data-turbo="false" class="w-full">
           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-          <button type="submit" class="w-full flex justify-center items-center rounded-md border border-gray-300 py-2.5 px-4
-                text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50
-                shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition">
-            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+          <button type="submit" class="w-full flex items-center justify-center py-3 px-4 border-2 border-transparent rounded-lg text-white bg-gradient-to-r from-orange-500 via-indigo-600 to-purple-600 hover:opacity-90 font-semibold text-sm shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:scale-[1.02] animated-gradient">
+            <svg class="w-5 h-5 mr-2 bg-white rounded-full p-0.5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -132,8 +133,50 @@
             Sign in with Google
           </button>
         </form>
+
+        <!-- Sign Up Link -->
+        <p class="text-center text-sm mt-6">
+          Don't have an account?
+          <%= link_to "Create a free account", new_user_registration_path, class: "text-indigo-600 font-semibold hover:underline" %>
+        </p>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="bg-gray-50 px-8 py-4 text-center text-xs text-gray-500">
+        Protected by industry-standard security
       </div>
 
     </div>
+
+    <!-- Back to Home -->
+    <div class="text-center mt-6">
+      <%= link_to root_path, class: "text-gray-600 hover:text-indigo-600 text-sm font-medium inline-flex items-center gap-2 group" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
+          <path d="m12 19-7-7 7-7"></path>
+          <path d="M19 12H5"></path>
+        </svg>
+        Back to EventHub
+      <% end %>
+    </div>
   </div>
 </div>
+
+<style>
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animated-gradient {
+    background-size: 200% 200%;
+    animation: gradient-animation 3s ease infinite;
+  }
+</style>
