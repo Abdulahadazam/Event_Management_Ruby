@@ -34,4 +34,7 @@
 !/app/assets/builds/.keep
 
 # Ignore environment variables
-   .env.env
+.env
+
+# Ignore letter_opener emails
+/tmp/letter_opener
