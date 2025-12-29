@@ -1,0 +1,97 @@
+<!-- Event Banner Carousel Section -->
+<div class="w-full relative -mt-16">
+  <div class="w-full">
+    <div 
+      class="relative h-[600px] overflow-hidden"
+      data-controller="banner-carousel"
+    >
+      <!-- Banner Images -->
+      <div class="relative w-full h-full">
+        <% 
+          # Collect all banner images
+          banner_images = []
+          if @event.banner.attached?
+            banner_images << { type: 'banner', url: url_for(@event.banner) }
+          end
+          if @event.image_url.present?
+            banner_images << { type: 'image_url', url: @event.image_url }
+          end
+          # Add placeholder images if none exist (for demo - you can customize this)
+          if banner_images.empty?
+            banner_images = [
+              { type: 'placeholder', url: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200' },
+              { type: 'placeholder', url: 'https://images.unsplash.com/photo-1501281668745-f7f63aa7d0e3?w=1200' },
+              { type: 'placeholder', url: 'https://images.unsplash.com/photo-1514525253161-7a46d19cdb89?w=1200' }
+            ]
+          end
+        %>
+        
+        <% banner_images.each_with_index do |img, index| %>
+          <div 
+            class="absolute inset-0 transition-opacity duration-700 <%= index == 0 ? 'opacity-100' : 'opacity-0 hidden' %>"
+            data-banner-carousel-target="slide"
+          >
+            <% if img[:type] == 'banner' %>
+              <%= image_tag img[:url], alt: @event.title, class: "w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-1000" %>
+            <% else %>
+              <%= image_tag img[:url], alt: @event.title, class: "w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-1000" %>
+            <% end %>
+            
+            <!-- Enhanced Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Navigation Buttons -->
+      <% if banner_images.length > 1 %>
+        <button 
+          type="button"
+          data-action="click->banner-carousel#previous"
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white p-3 rounded-full transition-all hover:scale-110"
+          aria-label="Previous image"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+        
+        <button 
+          type="button"
+          data-action="click->banner-carousel#next"
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white p-3 rounded-full transition-all hover:scale-110"
+          aria-label="Next image"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+        
+        <!-- Indicators -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          <% banner_images.each_with_index do |_, index| %>
+            <button
+              type="button"
+              data-action="click->banner-carousel#goToSlide"
+              data-index="<%= index %>"
+              class="w-2 h-2 rounded-full transition-all <%= index == 0 ? 'bg-white' : 'bg-white/50' %>"
+              data-banner-carousel-target="indicator"
+              aria-label="Go to slide <%= index + 1 %>"
+            ></button>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <!-- Back Button -->
+      <div class="absolute top-6 left-6 z-30">
+        <%= link_to root_path, class: "inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors bg-black/30 hover:bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+          <span class="font-medium text-sm">Back to Events</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

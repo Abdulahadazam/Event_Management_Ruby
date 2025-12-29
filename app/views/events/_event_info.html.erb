@@ -1,0 +1,83 @@
+<!-- Event Title & Core Info Card -->
+<div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 transform transition-all hover:shadow-2xl hover:-translate-y-1 animate-float">
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <% category_name = @event.category.is_a?(Category) ? @event.category.name : (@event.respond_to?(:category) && @event.category.is_a?(String) ? @event.category : nil) %>
+    <% if category_name.present? %>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold border border-indigo-100">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+        <%= category_name %>
+      </span>
+    <% end %>
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-sm font-medium">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <%= @event.registrations_count || 0 %> attending
+    </span>
+    <% if @distance_formatted.present? %>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <%= @distance_formatted %>
+      </span>
+    <% end %>
+  </div>
+
+  <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
+    <%= @event.title %>
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
+    <!-- Date -->
+    <div class="flex items-start gap-4">
+      <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+          <path d="M16 2v4"></path>
+          <path d="M8 2v4"></path>
+          <path d="M3 10h18"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Date & Time</h3>
+        <% if @event.date.present? %>
+          <p class="text-gray-900 font-medium mt-0.5"><%= @event.date.strftime("%B %d, %Y") %></p>
+          <p class="text-gray-500 text-sm"><%= @event.date.strftime("%A at %I:%M %p") %></p>
+        <% else %>
+          <p class="text-gray-500 italic">To be announced</p>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Location -->
+    <div class="flex items-start gap-4">
+      <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0 text-indigo-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide">Location</h3>
+        <p class="text-gray-900 font-medium mt-0.5"><%= @event.location %></p>
+        <% if @map_data&.has_coordinates %>
+          <a href="#map-section" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold inline-flex items-center gap-1 mt-1 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            View on Map
+          </a>
+        <% elsif @event.location.present? %>
+          <p class="text-xs text-gray-400 mt-1">Map coordinates being loaded...</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

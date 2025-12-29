@@ -1,0 +1,151 @@
+<!-- Booking Card -->
+<div class="sticky top-24" data-controller="ticket-booking" data-ticket-booking-price-value="<%= @event.price %>">
+  
+  <!-- Price Card -->
+  <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <p class="text-sm text-gray-500 font-medium uppercase tracking-wider">Price per ticket</p>
+        <p class="text-4xl font-extrabold text-gray-900 mt-1">$<%= @event.price %></p>
+      </div>
+      <% if @event.price == 0 %>
+        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wide">Free</span>
+      <% end %>
+    </div>
+    
+    <% if user_signed_in? %>
+      <% registration = @event.registrations.find_by(user: current_user) %>
+      <% user_tickets = current_user.tickets.where(event: @event, status: 'paid') %>
+      <% has_purchased_tickets = user_tickets.any? %>
+      
+      <% if registration %>
+        <% if has_purchased_tickets %>
+          <!-- Purchased Status -->
+          <div class="space-y-4">
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-5">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="font-bold text-green-900 text-lg">Tickets Purchased!</p>
+                  <p class="text-sm text-green-700">You have <%= pluralize(user_tickets.sum(:quantity), 'ticket') %> for this event</p>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-green-200">
+                <% user_tickets.each do |ticket| %>
+                  <div class="flex items-center justify-between mb-2 text-sm">
+                    <span class="text-green-800">
+                      <%= ticket.ticket_type || 'Standard' %> × <%= ticket.quantity %>
+                    </span>
+                    <span class="font-semibold text-green-900">$<%= ticket.total_amount %></span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            
+            <%= link_to tickets_path, class: "w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"></path>
+                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                <path d="M12 21c0-1-1-3-3-3s-3 2-3 3 1 3 3 3 3-2 3-3"></path>
+                <path d="M12 3c0 1 1 3 3 3s3-2 3-3-1-3-3-3-3 2-3 3"></path>
+              </svg>
+              View My Tickets
+            <% end %>
+          </div>
+        <% else %>
+          <!-- Registered but not purchased -->
+          <div data-ticket-booking-target="registrationCard" class="space-y-4">
+            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
+              <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <div>
+                <p class="font-bold text-emerald-900">Registered</p>
+                <p class="text-xs text-emerald-700">Complete your registration by buying tickets</p>
+              </div>
+            </div>
+            
+            <%= link_to new_event_ticket_path(@event), class: "w-full py-4 px-6 bg-gradient-to-r from-orange-500 to-indigo-600 hover:from-orange-600 hover:to-indigo-700 text-white rounded-xl font-bold shadow-lg transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path>
+              </svg>
+              Buy Tickets
+            <% end %>
+            
+            <div class="grid grid-cols-2 gap-3">
+              <%= link_to tickets_path, class: "py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold text-sm text-center transition-colors" do %>
+                My Tickets
+              <% end %>
+              <%= button_to "Cancel", event_registration_path(@event, registration), method: :delete, class: "w-full h-full py-3 px-4 bg-white border border-gray-200 hover:bg-red-50 hover:border-red-100 text-gray-500 hover:text-red-600 rounded-xl font-semibold text-sm transition-colors", data: { confirm: "Cancel registration?" } %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Hidden Booking Form -->
+        <div data-ticket-booking-target="bookingForm" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-gray-900">Select Tickets</h3>
+            <button type="button" data-action="click->ticket-booking#cancelBooking" class="text-sm text-gray-500 hover:text-gray-900 underline">Cancel</button>
+          </div>
+          
+          <%= form_with url: event_tickets_path(@event), method: :post, data: { action: "submit->ticket-booking#submitForm" }, class: "space-y-6" do |f| %>
+            <div class="p-1 border border-gray-200 rounded-2xl flex items-center justify-between bg-gray-50">
+              <button type="button" data-action="click->ticket-booking#decreaseQuantity" class="w-12 h-12 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+              </button>
+              
+              <%= f.number_field :quantity, data: { ticket_booking_target: "quantity", action: "input->ticket-booking#onQuantityChange" }, min: 1, max: 10, value: 1, class: "w-20 text-center bg-transparent border-none text-xl font-bold text-gray-900 focus:ring-0 p-0" %>
+              
+              <button type="button" data-action="click->ticket-booking#increaseQuantity" class="w-12 h-12 flex items-center justify-center text-indigo-600 hover:text-indigo-700 bg-white shadow-sm rounded-xl transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              </button>
+            </div>
+            
+            <div class="bg-indigo-50 rounded-xl p-4 flex items-center justify-between">
+              <span class="text-indigo-900 font-medium">Total</span>
+              <span class="text-2xl font-bold text-indigo-600" data-ticket-booking-target="totalAmount">$<%= @event.price %></span>
+            </div>
+            
+            <%= f.submit "Pay with Stripe", class: "w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all transform active:scale-95" %>
+          <% end %>
+        </div>
+
+      <% else %>
+        <!-- Not Registered -->
+        <div class="space-y-4">
+          <%= button_to "Register Now", event_registrations_path(@event), method: :post, class: "w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all hover:shadow-xl hover:-translate-y-0.5" %>
+          <p class="text-center text-gray-500 text-xs">Register to access ticket purchasing</p>
+        </div>
+      <% end %>
+    <% else %>
+      <!-- Guest State -->
+      <div class="bg-gray-50 rounded-xl p-5 mb-4 border border-gray-100 text-center">
+        <p class="text-gray-900 font-medium mb-3">Join to book tickets</p>
+        <div class="grid grid-cols-2 gap-3">
+          <%= link_to "Log In", new_user_session_path, class: "py-2.5 px-4 bg-white border border-gray-200 text-gray-700 rounded-lg font-semibold text-sm hover:border-gray-300 transition-colors" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "py-2.5 px-4 bg-gray-900 text-white rounded-lg font-semibold text-sm hover:bg-black transition-colors" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+  
+  <!-- Help Card -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center gap-4">
+    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div>
+      <p class="font-semibold text-gray-900">Questions?</p>
+      <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Contact Organizer</button>
+    </div>
+  </div>
+
+</div>
+

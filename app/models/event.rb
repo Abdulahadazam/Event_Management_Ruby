@@ -22,6 +22,7 @@ class Event < ApplicationRecord
   }, allow_nil: true
   
   before_save :update_lonlat_from_coordinates, if: :coordinates_changed?
+  before_save :geocode_location_if_needed, if: :should_geocode?
   
   
   scope :within_radius, ->(lat, lng, radius_km) {
@@ -168,5 +169,23 @@ class Event < ApplicationRecord
     else
       self.lonlat = nil
     end
+  end
+  
+  def should_geocode?
+    location.present? && !has_coordinates? && (location_changed? || new_record?)
+  end
+  
+  def geocode_location_if_needed
+    return if location.blank?
+    
+    coords = Events::GeocodingService.geocode(location)
+    
+    if coords
+      self.latitude = coords[:latitude]
+      self.longitude = coords[:longitude]
+    end
+  rescue StandardError => e
+    Rails.logger.error "Geocoding failed for location: #{location} - #{e.message}"
+    # Don't fail the save if geocoding fails
   end
 end

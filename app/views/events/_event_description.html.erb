@@ -1,0 +1,32 @@
+<!-- Event Description -->
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 transform transition-all hover:shadow-xl hover:scale-[1.01]">
+  <h2 class="text-xl font-bold text-gray-900 mb-4">About the Event</h2>
+  <div class="prose prose-indigo max-w-none text-gray-600 leading-relaxed">
+    <%= simple_format @event.description %>
+  </div>
+</div>
+
+<!-- Features Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 p-6 rounded-2xl">
+    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 12l2 2 4-4"></path>
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+    </div>
+    <h3 class="font-semibold text-gray-900">Instant Access</h3>
+    <p class="text-sm text-gray-600 mt-1">Digital tickets sent immediately to your email</p>
+  </div>
+  <div class="bg-gradient-to-br from-purple-50 to-white border border-purple-100 p-6 rounded-2xl">
+    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+        <line x1="2" y1="10" x2="22" y2="10"></line>
+      </svg>
+    </div>
+    <h3 class="font-semibold text-gray-900">Secure Payment</h3>
+    <p class="text-sm text-gray-600 mt-1">Encrypted transactions for your privacy</p>
+  </div>
+</div>
+
