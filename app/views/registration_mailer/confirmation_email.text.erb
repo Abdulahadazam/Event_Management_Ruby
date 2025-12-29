@@ -1,0 +1,27 @@
+Registration Confirmed for <%= @event.title %>
+
+Hello <%= @user.name || @user.email %>,
+
+Great news! You've successfully registered for: <%= @event.title %>
+
+Event Details:
+<% if @event.date.present? %>
+  Date: <%= @event.date.strftime("%B %d, %Y at %I:%M %p") %>
+<% end %>
+<% if @event.location.present? %>
+  Location: <%= @event.location %>
+<% end %>
+<% if @event.price.present? && @event.price > 0 %>
+  Price: $<%= @event.price %> per ticket
+<% end %>
+
+Complete Your Registration
+
+To secure your spot, please complete your registration by purchasing your tickets. Visit the link below to proceed with payment:
+
+<%= new_event_ticket_url(@event, source: 'email') %>
+
+We're excited to have you join us!
+
+© <%= Time.now.year %> EventHub. All rights reserved.
+

@@ -13,9 +13,10 @@ class User < ApplicationRecord
   has_many :registrations
   has_many :events, through: :registrations
   has_many :organized_events, class_name: "Event", foreign_key: :organizer_id
+  has_many :tickets, dependent: :destroy
 
   def self.ransackable_associations(auth_object = nil)
-    ["events", "organized_events", "registrations"]
+    ["events", "organized_events", "registrations", "tickets"]
   end
 
   def self.ransackable_attributes(auth_object = nil)

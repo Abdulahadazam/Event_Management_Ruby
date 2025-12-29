@@ -20,7 +20,6 @@ class Registration < ApplicationRecord
  private
 
   def send_confirmation_email_async
-    # enable this if you implement the mailer below
-    # RegistrationMailer.with(registration: self).confirmation_email.deliver_later
+    RegistrationMailer.with(registration: self).confirmation_email.deliver_later
   end
 end

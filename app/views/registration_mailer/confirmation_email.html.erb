@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .email-container {
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .email-header {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+      }
+      .email-header h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .email-body {
+        padding: 30px 20px;
+      }
+      .event-info {
+        background-color: #f9fafb;
+        border-left: 4px solid #6366f1;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .event-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #111827;
+        margin-bottom: 10px;
+      }
+      .event-details {
+        color: #6b7280;
+        font-size: 14px;
+        margin: 5px 0;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        color: white;
+        padding: 16px 32px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        margin: 30px 0;
+        box-shadow: 0 4px 6px rgba(249, 115, 22, 0.3);
+        transition: transform 0.2s;
+      }
+      .cta-button:hover {
+        transform: translateY(-2px);
+      }
+      .cta-container {
+        text-align: center;
+        margin: 30px 0;
+      }
+      .email-footer {
+        background-color: #f9fafb;
+        padding: 20px;
+        text-align: center;
+        color: #6b7280;
+        font-size: 12px;
+      }
+      .divider {
+        height: 1px;
+        background-color: #e5e7eb;
+        margin: 30px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">
+        <h1>🎉 Registration Confirmed!</h1>
+      </div>
+      
+      <div class="email-body">
+        <p>Hello <%= @user.name || @user.email %>,</p>
+        
+        <p>Great news! You've successfully registered for:</p>
+        
+        <div class="event-info">
+          <div class="event-title"><%= @event.title %></div>
+          <% if @event.date.present? %>
+            <div class="event-details">📅 <%= @event.date.strftime("%B %d, %Y at %I:%M %p") %></div>
+          <% end %>
+          <% if @event.location.present? %>
+            <div class="event-details">📍 <%= @event.location %></div>
+          <% end %>
+          <% if @event.price.present? && @event.price > 0 %>
+            <div class="event-details">💰 $<%= @event.price %> per ticket</div>
+          <% end %>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h2 style="color: #111827; font-size: 18px; margin-bottom: 15px;">Complete Your Registration - Buy Tickets</h2>
+        
+        <p>You've successfully registered for this event! To complete your registration and secure your spot, please purchase your tickets by clicking the button below:</p>
+        
+        <div class="cta-container">
+          <%= link_to "Complete Registration & Buy Tickets", new_event_ticket_url(@event, source: 'email'), class: 'cta-button', style: 'color: white; text-decoration: none;' %>
+        </div>
+        
+        <p style="color: #6b7280; font-size: 14px;">
+          Or copy and paste this link into your browser:<br>
+          <a href="<%= new_event_ticket_url(@event, source: 'email') %>" style="color: #6366f1; word-break: break-all;">
+            <%= new_event_ticket_url(@event, source: 'email') %>
+          </a>
+        </p>
+        
+        <p style="color: #6b7280; font-size: 14px; margin-top: 15px;">
+          <strong>Note:</strong> This link will take you directly to the secure payment page where you can enter your card details to complete your ticket purchase.
+        </p>
+        
+        <div class="divider"></div>
+        
+        <p style="color: #6b7280; font-size: 14px;">
+          We're excited to have you join us! If you have any questions, please don't hesitate to contact us.
+        </p>
+      </div>
+      
+      <div class="email-footer">
+        <p>© <%= Time.now.year %> EventHub. All rights reserved.</p>
+        <p>This is an automated message, please do not reply to this email.</p>
+      </div>
+    </div>
+  </body>
+</html>
+

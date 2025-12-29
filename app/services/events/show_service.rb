@@ -17,12 +17,15 @@ module Events
     end
     
     def call
+      user_loc = user_location
+      
       OpenStruct.new(
-        user_location: user_location,
-        distance: distance,
-        distance_formatted: distance_formatted,
+        user_location: user_loc,
+        distance: distance(user_loc),
+        distance_formatted: distance_formatted(user_loc),
         nearby_events: nearby_events,
-        registration: registration
+        registration: registration,
+        map_data: MapService.call(event, user_loc)
       )
     end
     
@@ -32,21 +35,21 @@ module Events
       @user_location ||= LocationService.get_location(params)
     end
     
-    def distance
-      return nil unless event.has_coordinates? && user_location.present?
+    def distance(user_loc)
+      return nil unless event.has_coordinates? && user_loc.present?
       
       event.distance_from(
-        user_location[:latitude],
-        user_location[:longitude]
+        user_loc[:latitude],
+        user_loc[:longitude]
       )
     end
     
-    def distance_formatted
-      return nil unless event.has_coordinates? && user_location.present?
+    def distance_formatted(user_loc)
+      return nil unless event.has_coordinates? && user_loc.present?
       
       event.distance_from_formatted(
-        user_location[:latitude],
-        user_location[:longitude]
+        user_loc[:latitude],
+        user_loc[:longitude]
       )
     end
     
