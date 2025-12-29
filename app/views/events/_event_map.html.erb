@@ -79,20 +79,6 @@
         data-event-map-user-longitude-value="<%= @map_data.user_location[:longitude] %>"
       <% end %>
     >
-      <!-- Click to expand overlay -->
-      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-[500] flex items-center justify-center pointer-events-none">
-        <div class="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-orange-300 opacity-0 group-hover:opacity-100 transition-opacity">
-          <p class="text-sm font-semibold text-orange-600 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 3h6v6"></path>
-              <path d="M9 21H3v-6"></path>
-              <path d="M21 3l-7 7"></path>
-              <path d="M3 21l7-7"></path>
-            </svg>
-            Click to expand map
-          </p>
-        </div>
-      </div>
       
       <!-- PostGIS Info Overlay -->
       <div class="absolute top-4 right-4 z-[1000] bg-white/95 backdrop-blur-md rounded-lg p-3 shadow-lg border border-orange-200">
