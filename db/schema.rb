@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_28_103642) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "postgis"
@@ -140,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_28_103642) do
     t.string "payment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ticket_type"
     t.index ["event_id"], name: "index_tickets_on_event_id"
     t.index ["registration_id"], name: "index_tickets_on_registration_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"

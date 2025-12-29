@@ -13,8 +13,10 @@ Rails.application.routes.draw do
 
   resources :events, only: [:index, :show, :new, :create] do
     resources :registrations, only: [:create, :destroy]
-    resources :tickets, only: [:create]
+    resources :tickets, only: [:create, :new]
   end
+  
+  resources :tickets, only: [:index, :show]
 
   post '/webhooks/stripe', to: 'webhooks#stripe'
 

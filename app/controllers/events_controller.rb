@@ -14,6 +14,11 @@ class EventsController < ApplicationController
   
   
   def show
+    # Geocode event location if coordinates are missing
+    if @event.location.present? && !@event.has_coordinates?
+      Events::GeocodingService.geocode_and_update(@event)
+    end
+    
     result = Events::ShowService.call(@event, params, current_user)
     
     @user_location = result.user_location
@@ -21,6 +26,7 @@ class EventsController < ApplicationController
     @distance_formatted = result.distance_formatted
     @nearby_events = result.nearby_events
     @registration = result.registration
+    @map_data = result.map_data
     
     handle_payment_flash
   end
@@ -30,11 +36,12 @@ class EventsController < ApplicationController
   end
   
   def create
-    @event = current_user.events.build(event_params)
+    result = Events::CreateService.call(current_user, params)
     
-    if @event.save
-      redirect_to @event, notice: 'Event was successfully created.'
+    if result.success
+      redirect_to result.event, notice: 'Event was successfully created.'
     else
+      @event = result.event
       render :new, status: :unprocessable_entity
     end
   end
@@ -46,9 +53,12 @@ class EventsController < ApplicationController
   def update
     authorize_event_owner!
     
-    if @event.update(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
+    result = Events::UpdateService.call(@event, params)
+    
+    if result.success
+      redirect_to result.event, notice: 'Event was successfully updated.'
     else
+      @event = result.event
       render :edit, status: :unprocessable_entity
     end
   end
@@ -63,7 +73,6 @@ class EventsController < ApplicationController
   
   def nearby
     result = Events::NearbyService.call(params)
-    
     render json: result.to_json
   end
   
@@ -98,9 +107,9 @@ class EventsController < ApplicationController
   
   def handle_payment_flash
     if params[:success]
-      flash.now[:notice] = "Payment successful! Your ticket has been confirmed."
+      flash[:notice] = "Payment successful! Ticket confirmation email has been sent to your email address."
     elsif params[:canceled]
-      flash.now[:alert] = "Payment was canceled."
+      flash[:alert] = "Payment was canceled."
     end
   end
 end

@@ -19,4 +19,15 @@ module ApplicationHelper
       "U"
     end
   end
+  
+  def calculate_ticket_price(ticket_type, base_price)
+    case ticket_type
+    when 'VIP'
+      base_price * 1.5
+    when 'Premium'
+      base_price * 2.0
+    else
+      base_price
+    end
+  end
 end

@@ -57,7 +57,15 @@ Rails.application.configure do
 
   
   
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # Default URL options for mailer
+  # Set NGROK_URL environment variable when using ngrok
+  # Example: NGROK_URL=https://abc123.ngrok.io
+  ngrok_host = ENV['NGROK_URL']&.gsub(/^https?:\/\//, '')
+  config.action_mailer.default_url_options = if ngrok_host
+    { host: ngrok_host, protocol: 'https' }
+  else
+    { host: 'localhost', port: 3000, protocol: 'http' }
+  end
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
@@ -78,6 +86,11 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # Allow ngrok URLs for Stripe webhooks
+  config.hosts << /.*\.ngrok\.io/
+  config.hosts << /.*\.ngrok-free\.app/
+  config.hosts << /.*\.ngrok\.dev/
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
