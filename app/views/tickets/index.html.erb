@@ -1,0 +1,72 @@
+<div class="min-h-screen bg-gray-50 flex flex-col">
+  <%= render 'shared/header' %>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">My Tickets</h1>
+      <p class="text-gray-600">View all your purchased event tickets</p>
+    </div>
+
+    <% if @tickets.any? %>
+      <!-- Upcoming Events -->
+      <% if @upcoming_tickets.any? %>
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+              <path d="M8 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+              <path d="M3 10h18"></path>
+            </svg>
+            Upcoming Events
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @upcoming_tickets.each do |ticket| %>
+              <%= render 'ticket_card', ticket: ticket %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Past Events -->
+      <% if @past_tickets.any? %>
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+              <path d="M8 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+              <path d="M3 10h18"></path>
+            </svg>
+            Past Events
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @past_tickets.each do |ticket| %>
+              <%= render 'ticket_card', ticket: ticket %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <!-- Empty State -->
+      <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
+        <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+            <path d="M9 12l2 2 4-4"></path>
+            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+            <path d="M12 21c0-1-1-3-3-3s-3 2-3 3 1 3 3 3 3-2 3-3"></path>
+            <path d="M12 3c0 1 1 3 3 3s3-2 3-3-1-3-3-3-3 2-3 3"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">No Tickets Yet</h3>
+        <p class="text-gray-600 mb-6">You haven't purchased any tickets yet. Browse events and get your tickets!</p>
+        <%= link_to "Browse Events", events_path, class: "inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all" %>
+      </div>
+    <% end %>
+  </main>
+
+  <%= render 'shared/footer' %>
+</div>
+
+
