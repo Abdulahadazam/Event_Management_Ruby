@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :category, optional: true
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :registrations, dependent: :destroy
   has_many :attendees, through: :registrations, source: :user
   has_one_attached :banner
