@@ -56,6 +56,8 @@ class EventRequest < ApplicationRecord
       ticket_price
       event_capacity
       category_id
+      has_multiple_ticket_types
+      ticket_types_data
       created_at
       updated_at
     ]
