@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9fafb;
+    }
+    .container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .event-details {
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    .event-details h2 {
+      color: #475569;
+      margin-top: 0;
+      font-size: 22px;
+    }
+    .reason-box {
+      background-color: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .reason-box p {
+      margin: 0;
+      color: #92400e;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: #ffffff;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 30px;
+      color: #6b7280;
+      font-size: 14px;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Event Request Update</h1>
+      <p style="color: #e2e8f0; margin: 10px 0 0 0; font-size: 16px;">Regarding your event submission</p>
+    </div>
+
+    <div class="content">
+      <p>Hi <%= @event_request.organizer_name %>,</p>
+
+      <p>Thank you for submitting your event request for <strong><%= @event_request.event_title %></strong>.</p>
+
+      <p>After careful review, we regret to inform you that we are unable to approve your event request at this time.</p>
+
+      <% if @rejection_reason.present? && @rejection_reason != "Unfortunately, we cannot approve your event request at this time." %>
+      <div class="reason-box">
+        <p><strong>Reason:</strong> <%= @rejection_reason %></p>
+      </div>
+      <% end %>
+
+      <div class="event-details">
+        <h2>Request Details</h2>
+        <p><strong>Event Title:</strong> <%= @event_request.event_title %></p>
+        <p><strong>Submitted Date:</strong> <%= @event_request.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+
+      <p>We appreciate your interest in EventHub and encourage you to:</p>
+      <ul>
+        <li>Review our event guidelines and policies</li>
+        <li>Submit a revised event request that addresses the concerns mentioned</li>
+        <li>Contact us if you have any questions about this decision</li>
+      </ul>
+
+      <center>
+        <a href="<%= new_event_request_url %>" class="cta-button">Submit New Request</a>
+      </center>
+
+      <p style="margin-top: 30px;">If you have any questions or would like more information about this decision, please don't hesitate to reach out to us.</p>
+
+      <p style="margin-top: 25px;">
+        Best regards,<br>
+        <strong>The EventHub Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; <%= Time.current.year %> EventHub. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

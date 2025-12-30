@@ -1,0 +1,35 @@
+EVENT REQUEST UPDATE
+Regarding your event submission
+================================================================================
+
+Hi <%= @event_request.organizer_name %>,
+
+Thank you for submitting your event request for <%= @event_request.event_title %>.
+
+After careful review, we regret to inform you that we are unable to approve your event request at this time.
+
+<% if @rejection_reason.present? && @rejection_reason != "Unfortunately, we cannot approve your event request at this time." -%>
+REASON
+--------------------------------------------------------------------------------
+<%= @rejection_reason %>
+
+<% end -%>
+REQUEST DETAILS
+--------------------------------------------------------------------------------
+Event Title:      <%= @event_request.event_title %>
+Submitted Date:   <%= @event_request.created_at.strftime("%B %d, %Y") %>
+
+We appreciate your interest in EventHub and encourage you to:
+
+- Review our event guidelines and policies
+- Submit a revised event request that addresses the concerns mentioned
+- Contact us if you have any questions about this decision
+
+Submit a new request: <%= new_event_request_url %>
+
+If you have any questions or would like more information about this decision, please don't hesitate to reach out to us.
+
+Best regards,
+The EventHub Team
+
+© <%= Time.current.year %> EventHub. All rights reserved.
