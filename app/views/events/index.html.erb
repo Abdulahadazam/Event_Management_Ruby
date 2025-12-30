@@ -23,7 +23,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-xl font-bold">Filters</h3>
-            <% if params.slice(:search, :category, :category_id, :city, :min_price, :max_price, :radius).any? %>
+            <% if params[:search].present? || params[:category].present? || params[:category_id].present? || params[:city].present? || params[:min_price].present? || params[:max_price].present? || params[:radius].present? %>
               <%= link_to "Clear All", events_path, class: "text-sm text-blue-600 hover:text-blue-800" %>
             <% end %>
           </div>

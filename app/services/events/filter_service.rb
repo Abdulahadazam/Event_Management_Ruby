@@ -66,27 +66,47 @@ module Events
     end
     
     def apply_search_filter(events)
-      if params[:search].present?
-        search_term = "%#{params[:search]}%"
-        events.where(
-          "title ILIKE ? OR description ILIKE ? OR location ILIKE ?", 
-          search_term, search_term, search_term
-        )
+      if params[:search].present? && params[:search].strip.length > 0
+        
+        events.search_by_all(params[:search].strip)
       else
         events
       end
     end
     
     def apply_location_filter(events)
-      return events.order(date: :asc).to_a unless user_location.present?
-      
-      lat = user_location[:latitude]
-      lng = user_location[:longitude]
+      # If no user location, just return events ordered by date
+      return events.order(date: :asc) unless user_location.present?
+
+      lat = user_location[:latitude].to_f
+      lng = user_location[:longitude].to_f
       radius = params[:radius]&.to_i || 50
+
       
-      events = events.nearby(lat, lng, radius)
+      radius_meters = radius * 1000
+
+    
+      sql = <<~SQL
+        SELECT events.*,
+               ST_Distance(
+                 lonlat,
+                 ST_SetSRID(ST_MakePoint(#{lng}, #{lat}), 4326)::geography
+               ) as distance_in_meters
+        FROM events
+        WHERE events.id IN (#{events.select(:id).to_sql})
+          AND ST_DWithin(
+            lonlat,
+            ST_SetSRID(ST_MakePoint(#{lng}, #{lat}), 4326)::geography,
+            #{radius_meters}
+          )
+        ORDER BY distance_in_meters ASC
+      SQL
+
+    
+      nearby_events = Event.find_by_sql(sql)
+
       
-      events.to_a.map do |event|
+      nearby_events.map do |event|
         event.define_singleton_method(:user_distance) do
           distance_from(lat, lng)
         end
