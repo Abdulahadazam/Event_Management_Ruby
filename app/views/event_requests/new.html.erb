@@ -91,18 +91,18 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
-                    <%= f.label :name, class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.text_field :name, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "Your full name", required: true %>
+                    <%= f.label :organizer_name, "Name", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.text_field :organizer_name, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "Your full name", required: true %>
                   </div>
-                  
+
                   <div>
-                    <%= f.label :email, class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.email_field :email, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "your@email.com", required: true %>
+                    <%= f.label :organizer_email, "Email", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.email_field :organizer_email, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "your@email.com", required: true %>
                   </div>
-                  
+
                   <div>
-                    <%= f.label :phone, class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.telephone_field :phone, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "+1 (555) 123-4567", required: true %>
+                    <%= f.label :organizer_phone, "Phone", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.telephone_field :organizer_phone, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "+1 (555) 123-4567", required: true %>
                   </div>
                 </div>
               </div>
@@ -118,25 +118,65 @@
                     <%= f.label :event_title, "Event Title", class: "block text-sm font-semibold text-gray-700 mb-2" %>
                     <%= f.text_field :event_title, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "Give your event a catchy title", required: true %>
                   </div>
-                  
+
                   <div>
-                    <%= f.label :event_category_id, "Category", class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.collection_select :event_category_id, Category.all, :id, :name, { prompt: "Select category" }, { class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer text-base appearance-none bg-white", required: true } %>
+                    <%= f.label :category_id, "Event Category", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.select :category_id,
+                        options_for_select([["Select category", ""]] + Category.all.map { |c| [c.name, c.id] }),
+                        {},
+                        { class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", required: true } %>
                   </div>
-                  
+
                   <div>
-                    <%= f.label :event_type, "Event Type", class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.select :event_type, ["Concert", "Conference", "Party", "Meetup", "Workshop"], { prompt: "Select event type" }, { class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all cursor-pointer text-base appearance-none bg-white", required: true } %>
+                    <%= f.label :event_capacity, "Event Capacity", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.number_field :event_capacity, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "Maximum number of attendees (e.g. 100)", required: true %>
                   </div>
-                  
-                  <div>
-                    <%= f.label :expected_guests, "Expected Guests", class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.number_field :expected_guests, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 50", required: true %>
+
+                </div>
+
+                <!-- Ticket Pricing Section -->
+                <div class="space-y-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Ticket Pricing</label>
+
+                  <div class="flex items-center gap-6">
+                    <label class="inline-flex items-center cursor-pointer">
+                      <%= f.radio_button :has_multiple_ticket_types, false, checked: true, data: { action: "change->event-request#toggleTicketTypes" }, class: "w-5 h-5 text-indigo-600 focus:ring-indigo-500" %>
+                      <span class="ml-2 text-gray-700 font-medium">Single Ticket Type</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                      <%= f.radio_button :has_multiple_ticket_types, true, data: { action: "change->event-request#toggleTicketTypes" }, class: "w-5 h-5 text-indigo-600 focus:ring-indigo-500" %>
+                      <span class="ml-2 text-gray-700 font-medium">Multiple Ticket Types (Standard, VIP, Premium)</span>
+                    </label>
                   </div>
-                  
-                  <div class="md:col-span-2">
-                    <%= f.label :budget, "Budget (USD)", class: "block text-sm font-semibold text-gray-700 mb-2" %>
-                    <%= f.number_field :budget, step: 0.01, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 1000.00" %>
+
+                  <!-- Single Ticket Price -->
+                  <div id="single_ticket_price" data-event-request-target="singleTicket" class="grid grid-cols-1">
+                    <div>
+                      <%= f.label :ticket_price, "Ticket Price (USD)", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                      <%= f.number_field :ticket_price, step: 0.01, min: 0, class: "w-full px-4 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 25.00 (Enter 0 for free events)" %>
+                      <p class="text-xs text-gray-500 mt-1">Set to 0 for free events</p>
+                    </div>
+                  </div>
+
+                  <!-- Multiple Ticket Types -->
+                  <div id="multiple_ticket_types" data-event-request-target="multipleTickets" class="hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div class="bg-gray-50 p-4 rounded-lg border-2 border-gray-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Standard Ticket Price (USD)</label>
+                        <%= f.number_field :standard_ticket_price, step: 0.01, min: 0, class: "w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 20.00", data: { ticket_type: "standard" } %>
+                      </div>
+
+                      <div class="bg-amber-50 p-4 rounded-lg border-2 border-amber-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">VIP Ticket Price (USD)</label>
+                        <%= f.number_field :vip_ticket_price, step: 0.01, min: 0, class: "w-full px-4 py-3 border-2 border-amber-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 50.00", data: { ticket_type: "vip" } %>
+                      </div>
+
+                      <div class="bg-purple-50 p-4 rounded-lg border-2 border-purple-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Premium Ticket Price (USD)</label>
+                        <%= f.number_field :premium_ticket_price, step: 0.01, min: 0, class: "w-full px-4 py-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-base", placeholder: "e.g. 100.00", data: { ticket_type: "premium" } %>
+                      </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Enter prices for the ticket types you want to offer. Leave blank for types you don't want to offer.</p>
                   </div>
                 </div>
 
