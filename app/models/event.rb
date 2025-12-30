@@ -1,15 +1,37 @@
 class Event < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :category, optional: true
   belongs_to :user, optional: true
   has_many :registrations, dependent: :destroy
   has_many :attendees, through: :registrations, source: :user
   has_one_attached :banner
-  
+
   validates :title, presence: true
   validates :description, presence: true
   validates :location, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :date, presence: true
+
+  
+  pg_search_scope :search_by_all,
+    against: {
+      title: 'A',
+      description: 'B',
+      location: 'C'
+    },
+    associated_against: {
+      category: :name
+    },
+    using: {
+      tsearch: {
+        prefix: true,
+        any_word: true
+      },
+      trigram: {
+        threshold: 0.3
+      }
+    }
   
   validates :latitude, numericality: { 
     greater_than_or_equal_to: -90, 
