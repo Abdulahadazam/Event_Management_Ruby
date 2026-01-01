@@ -1,6 +1,9 @@
-<%= link_to events_path(category: category),
-            class: "group relative overflow-hidden rounded-xl shadow-lg
-                    transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" do %>
+<a href="#"
+   data-action="click->events#filterByCategory"
+   data-category="<%= category %>"
+   class="group relative overflow-hidden rounded-xl shadow-lg cursor-pointer
+          transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+
   <div class="relative aspect-[4/3]">
     <%= image_tag image,
                   alt: name,
@@ -36,7 +39,7 @@
     </div>
     <h3 class="mb-1 text-xl font-bold text-white"><%= name %></h3>
     <p class="text-gray-200">
-      <%= Event.joins(:category).where(categories: { name: category.titleize }).count %> events
+      <%= Event.upcoming.joins(:category).where(categories: { name: category }).count %> events
     </p>
   </div>
-<% end %>
+</a>
