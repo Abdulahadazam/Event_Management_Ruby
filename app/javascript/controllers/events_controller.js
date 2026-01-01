@@ -56,4 +56,23 @@ export default class extends Controller {
       }
     }
   }
+
+  filterByCategory(event) {
+    event.preventDefault()
+    const categoryName = event.currentTarget.dataset.category
+
+    
+    if (this.hasCategoryTarget) {
+      this.categoryTarget.value = categoryName
+    }
+
+    
+    const eventsSection = document.querySelector('[data-events-target="grid"]')
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+  
+    this.filterEvents()
+  }
 }
