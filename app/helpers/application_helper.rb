@@ -1,4 +1,5 @@
 module ApplicationHelper
+    include Pagy::Frontend
   def user_initials(user)
     return "U" unless user
     
