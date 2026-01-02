@@ -1,11 +1,10 @@
 default: &default
-  adapter: postgresql
-  encoding: unicode
   adapter: postgis
-  host: localhost
-  port: 5432
-  username: abdulahad
-  password: hello246
+  encoding: unicode
+  host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("DB_PORT") { 5432 } %>
+  username: <%= ENV.fetch("DB_USERNAME") { "abdulahad" } %>
+  password: <%= ENV["DB_PASSWORD"] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
