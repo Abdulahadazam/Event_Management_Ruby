@@ -73,11 +73,11 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
+gem "stripe"
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-
-  gem "stripe"
 
   # Preview emails in the browser with a web interface
   gem "letter_opener_web"
