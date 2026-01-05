@@ -40,3 +40,4 @@
 /tmp/letter_opener
 
 /config/credentials/production.key
+.kamal/secrets
