@@ -12,6 +12,16 @@ class Ticket < ApplicationRecord
 
   TICKET_TYPES = ['Standard', 'VIP', 'Premium'].freeze
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "event_id", "id", "payment_id", "payment_method", "quantity",
+     "registration_id", "status", "ticket_type", "total_amount", "updated_at",
+     "user_id", "ticket_number"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["user", "event", "registration"]
+  end
+
   def qr_code_data
     "TICKET-#{id}-EVENT-#{event_id}-USER-#{user_id}"
   end
