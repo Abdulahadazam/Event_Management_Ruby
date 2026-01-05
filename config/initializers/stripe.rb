@@ -1,6 +1,10 @@
-Rails.configuration.stripe = {
-  publishable_key: Rails.application.credentials.dig(:stripe, :publishable_key) || ENV['STRIPE_PUBLISHABLE_KEY'],
-  secret_key: Rails.application.credentials.dig(:stripe, :secret_key) || ENV['STRIPE_SECRET_KEY']
-}
+# config/initializers/stripe.rb
 
-Stripe.api_key = Rails.configuration.stripe[:secret_key]
+require "stripe"
+
+Stripe.api_key = ENV.fetch("STRIPE_SECRET_KEY")
+
+Rails.configuration.stripe = {
+  publishable_key: ENV.fetch("STRIPE_PUBLISHABLE_KEY"),
+  secret_key: ENV.fetch("STRIPE_SECRET_KEY")
+}

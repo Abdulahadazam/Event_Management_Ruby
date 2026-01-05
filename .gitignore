@@ -38,3 +38,5 @@
 
 # Ignore letter_opener emails
 /tmp/letter_opener
+
+/config/credentials/production.key

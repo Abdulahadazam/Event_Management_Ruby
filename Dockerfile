@@ -1,13 +1,15 @@
 # 1. Use Ruby 3.3 with Debian Bullseye
 FROM ruby:3.3-bullseye
 
-# 2. Install dependencies: Postgres client, Node.js, Yarn
+# 2. Install dependencies: Postgres client, PostGIS, Node.js, Yarn
 RUN apt-get update -qq && apt-get install -y \
     postgresql-client \
+    libpq-dev \
+    libgeos-dev \
+    libproj-dev \
     curl \
     gnupg \
     build-essential \
-    libpq-dev \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
@@ -33,9 +35,16 @@ ARG RAILS_MASTER_KEY
 ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ENV RAILS_ENV=production
 
+# 8. Precompile assets (skip for now, will compile on container start)
+# RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
-# 9. Expose Rails port
+# 9. Copy and set entrypoint
+COPY docker-entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# 10. Expose Rails port
 EXPOSE 3000
 
-# 10. Start Rails server
+# 11. Start Rails server
 CMD ["bin/rails", "server", "-b", "0.0.0.0", "-e", "production"]
