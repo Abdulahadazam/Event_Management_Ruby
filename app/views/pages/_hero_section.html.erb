@@ -20,18 +20,17 @@
             class="w-full h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 pl-10 text-base outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm"
           />
         </div>
-        <select 
+        <select
           data-events-target="category"
           data-action="change->events#filterEvents"
           class="md:w-48 h-12 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm cursor-pointer"
         >
           <option value="all">All Categories</option>
-          <option value="Music">Music</option>
-          <option value="Technology">Technology</option>
-          <option value="Food & Drink">Food & Drink</option>
-          <option value="Art">Art</option>
-          <option value="Sports">Sports</option>
-          <option value="Comedy">Comedy</option>
+          <% if defined?(@categories) && @categories.present? %>
+            <% @categories.each do |category| %>
+              <option value="<%= category.name %>"><%= category.name %></option>
+            <% end %>
+          <% end %>
         </select>
       </div>
     </div>

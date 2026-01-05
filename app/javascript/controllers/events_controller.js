@@ -11,23 +11,25 @@ export default class extends Controller {
   filterEvents() {
     const searchTerm = this.searchTarget.value.toLowerCase().trim()
     const selectedCategory = this.categoryTarget.value
-    
+
     let visibleCount = 0
-    
+
     this.originalEvents.forEach(eventCard => {
       const title = eventCard.dataset.title || ""
       const location = eventCard.dataset.location || ""
       const category = eventCard.dataset.category || ""
+
       
-      const matchesSearch = !searchTerm || 
-        title.includes(searchTerm) || 
-        location.includes(searchTerm)
-      
-      const matchesCategory = selectedCategory === "all" || 
+      const matchesSearch = !searchTerm ||
+        title.includes(searchTerm) ||
+        location.includes(searchTerm) ||
+        category.toLowerCase().includes(searchTerm)
+
+      const matchesCategory = selectedCategory === "all" ||
         category === selectedCategory
-      
+
       const shouldShow = matchesSearch && matchesCategory
-      
+
       if (shouldShow) {
         eventCard.style.display = "block"
         visibleCount++
@@ -35,7 +37,7 @@ export default class extends Controller {
         eventCard.style.display = "none"
       }
     })
-    
+
     this.updateCount(visibleCount)
     this.toggleNoResults(visibleCount === 0)
   }
@@ -53,5 +55,24 @@ export default class extends Controller {
         this.noResultsTarget.classList.add("hidden")
       }
     }
+  }
+
+  filterByCategory(event) {
+    event.preventDefault()
+    const categoryName = event.currentTarget.dataset.category
+
+    
+    if (this.hasCategoryTarget) {
+      this.categoryTarget.value = categoryName
+    }
+
+    
+    const eventsSection = document.querySelector('[data-events-target="grid"]')
+    if (eventsSection) {
+      eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+  
+    this.filterEvents()
   }
 }

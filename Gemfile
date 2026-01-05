@@ -45,6 +45,9 @@ gem "sassc-rails"
 
 gem 'active_admin_theme'
 gem 'solargraph'
+gem 'pg_search', '~> 2.3'
+
+gem 'pagy'
 
 
 # Use Redis adapter to run Action Cable in production

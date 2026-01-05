@@ -1,0 +1,29 @@
+CONGRATULATIONS!
+Your event request has been approved
+================================================================================
+
+Hi <%= @event_request.organizer_name %>,
+
+Great news! Your event request has been approved and is now live on EventHub.
+
+EVENT DETAILS
+--------------------------------------------------------------------------------
+Title:          <%= @event_request.event_title %>
+Date:           <%= @event_request.preferred_date.strftime("%B %d, %Y") %>
+Time:           <%= @event_request.preferred_time %>
+Location:       <%= @event_request.is_remote? ? "Remote - #{@event_request.platform}" : @event_request.venue_address %>
+<% if @event_request.event_capacity.present? -%>
+Capacity:       <%= @event_request.event_capacity %> attendees
+<% end -%>
+Ticket Price:   <%= @event_request.ticket_price > 0 ? "$#{@event_request.ticket_price}" : "Free" %>
+
+Your event is now visible to all EventHub users and attendees can start registering.
+
+View your event: <%= event_url(@event) %>
+
+If you have any questions or need to make changes to your event, please contact us.
+
+Best regards,
+The EventHub Team
+
+© <%= Time.current.year %> EventHub. All rights reserved.

@@ -12,7 +12,7 @@
           <div>
             <h3 class="text-2xl font-bold text-gray-900">Upcoming Events</h3>
             <p class="text-gray-600 mt-1" data-events-target="count">
-              Showing <%= @events.count %> events
+              Showing <%= @pagy.from %>-<%= @pagy.to %> of <%= @pagy.count %> events
             </p>
           </div>
         </div>
@@ -35,6 +35,13 @@
         <div data-events-target="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <%= render partial: 'events/event_card', collection: @events, as: :event %>
         </div>
+
+        <!-- Pagination -->
+        <% if @pagy.pages > 1 %>
+          <div class="mt-12 flex justify-center">
+            <%== pagy_nav(@pagy, aria_label: 'Pagination') %>
+          </div>
+        <% end %>
       </div>
     </section>
   </main>

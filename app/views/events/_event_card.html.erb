@@ -1,5 +1,5 @@
-<div class="group event-card rounded-2xl border border-gray-200 bg-white overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1" 
-     data-category="<%= event.category %>"
+<div class="group event-card rounded-2xl border border-gray-200 bg-white overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+     data-category="<%= event.category&.name || 'Uncategorized' %>"
      data-title="<%= event.title.downcase %>"
      data-location="<%= event.location.downcase %>">
   
@@ -18,7 +18,7 @@
       </div>
     <% end %>
     <span class="absolute top-4 right-4 inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-indigo-600 shadow-sm">
-      <%= event.category %>
+      <%= event.category&.name || 'Uncategorized' %>
     </span>
   </div>
 

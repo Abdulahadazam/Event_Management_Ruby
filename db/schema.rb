@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_30_082836) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
   enable_extension "postgis"
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -77,9 +78,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
   end
 
   create_table "event_requests", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "phone"
+    t.string "organizer_name"
+    t.string "organizer_email"
+    t.string "organizer_phone"
     t.string "event_title"
     t.text "event_description"
     t.date "preferred_date"
@@ -91,11 +92,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
     t.string "platform"
     t.string "meeting_link"
     t.string "time_zone"
-    t.integer "event_category_id"
     t.integer "status"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "ticket_price", precision: 10, scale: 2, default: "0.0", null: false
+    t.integer "event_capacity"
+    t.bigint "category_id"
+    t.boolean "has_multiple_ticket_types", default: false, null: false
+    t.jsonb "ticket_types_data", default: {}
+    t.index ["category_id"], name: "index_event_requests_on_category_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -113,7 +119,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
+    t.string "organizer_name"
+    t.string "organizer_email"
+    t.string "organizer_phone"
+    t.bigint "event_request_id"
     t.index ["category_id"], name: "index_events_on_category_id"
+    t.index ["event_request_id"], name: "index_events_on_event_request_id"
     t.index ["lonlat"], name: "index_events_on_lonlat", using: :gist
   end
 
@@ -166,7 +177,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_29_022934) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_requests", "categories"
   add_foreign_key "events", "categories"
+  add_foreign_key "events", "event_requests"
   add_foreign_key "registrations", "events"
   add_foreign_key "registrations", "users"
   add_foreign_key "tickets", "events"

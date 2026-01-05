@@ -1,14 +1,15 @@
 ActiveAdmin.register EventRequest do
-  permit_params :name, :email, :phone, :event_title, :event_description,
+  permit_params :organizer_name, :organizer_email, :organizer_phone, :event_title, :event_description,
                 :preferred_date, :preferred_time, :is_remote, :venue_address,
                 :city, :country, :platform, :meeting_link, :time_zone,
-                :category_id, :status, :notes, :banner
+                :category_id, :status, :notes, :banner, :ticket_price, :event_capacity,
+                :has_multiple_ticket_types, :standard_ticket_price, :vip_ticket_price, :premium_ticket_price
 
 
   filter :event_title
-  filter :name
-  filter :email
-  filter :phone
+  filter :organizer_name
+  filter :organizer_email
+  filter :organizer_phone
   filter :status, as: :select, collection: -> { EventRequest.statuses }
   filter :preferred_date
   filter :is_remote
@@ -28,8 +29,8 @@ ActiveAdmin.register EventRequest do
     selectable_column
     id_column
     column :event_title
-    column :name
-    column :email
+    column :organizer_name
+    column :organizer_email
     column :location_type
     column :preferred_date
     column :status do |er|
@@ -47,14 +48,27 @@ ActiveAdmin.register EventRequest do
 
   member_action :approve, method: :post do
     event_request = EventRequest.find(params[:id])
-    
+
     ActiveRecord::Base.transaction do
+    
+      primary_price = if event_request.has_multiple_ticket_types? && event_request.ticket_types_data.present?
+        
+        event_request.ticket_types_data.values.min || 0
+      else
+        event_request.ticket_price || 0
+      end
+
       event = Event.create!(
         title: event_request.event_title,
         description: event_request.event_description,
         date: event_request.preferred_date,
         location: event_request.is_remote? ? (event_request.platform || "Remote") : event_request.venue_address,
-        price: 0
+        price: primary_price,
+        category_id: event_request.category_id,
+        organizer_name: event_request.organizer_name,
+        organizer_email: event_request.organizer_email,
+        organizer_phone: event_request.organizer_phone,
+        event_request_id: event_request.id
       )
 
       if event_request.banner.attached? && event.respond_to?(:banner)
@@ -62,29 +76,39 @@ ActiveAdmin.register EventRequest do
       end
 
       event_request.update!(status: :approved)
-      
-      # Send approval email
-      # EventRequestMailer.with(event_request: event_request, event: event).approved_email.deliver_later
+
+
+      EventRequestMailer.with(event_request: event_request, event: event).approved_email.deliver_later
     end
 
-    redirect_to admin_event_requests_path, notice: "Event request approved and event created successfully!"
+    redirect_to admin_event_requests_path, notice: "Event request approved and event created successfully! Approval email sent to organizer."
   rescue => e
     redirect_to admin_event_requests_path, alert: "Error approving request: #{e.message}"
   end
 
   member_action :reject, method: :post do
     event_request = EventRequest.find(params[:id])
+    rejection_reason = params[:rejection_reason] || "Unfortunately, we cannot approve your event request at this time."
+
     event_request.update!(status: :rejected)
+
     
-    redirect_to admin_event_requests_path, notice: "Event request rejected."
+    EventRequestMailer.with(
+      event_request: event_request,
+      rejection_reason: rejection_reason
+    ).rejected_email.deliver_later
+
+    redirect_to admin_event_requests_path, notice: "Event request rejected. Rejection email sent to organizer."
+  rescue => e
+    redirect_to admin_event_requests_path, alert: "Error rejecting request: #{e.message}"
   end
 
   show do
     attributes_table do
       row :event_title
-      row :name
-      row :email
-      row :phone
+      row :organizer_name
+      row :organizer_email
+      row :organizer_phone
       row :status do |er|
         status_tag er.status
       end
@@ -99,6 +123,22 @@ ActiveAdmin.register EventRequest do
       row :platform
       row :meeting_link
       row :time_zone
+      row :has_multiple_ticket_types do |er|
+        er.has_multiple_ticket_types? ? "Yes (Multiple Types)" : "No (Single Type)"
+      end
+      row :ticket_pricing do |er|
+        if er.has_multiple_ticket_types? && er.ticket_types_data.present?
+          content_tag(:div) do
+            er.ticket_types_data.map do |type, price|
+              content_tag(:div, "#{type}: $#{price}", style: "margin-bottom: 5px;")
+            end.join.html_safe
+          end
+        else
+          er.ticket_price.to_f > 0 ? "$#{er.ticket_price}" : "Free"
+        end
+      end
+      row :event_capacity
+      row :category
       row :notes
       row :banner do |er|
         if er.banner.attached?
@@ -125,25 +165,62 @@ ActiveAdmin.register EventRequest do
   end
 
   form do |f|
-    f.inputs do
-      f.input :name
-      f.input :email
-      f.input :phone
+    f.inputs "Organizer Information" do
+      f.input :organizer_name
+      f.input :organizer_email
+      f.input :organizer_phone
+    end
+
+    f.inputs "Event Details" do
       f.input :event_title
       f.input :event_description
-      f.input :preferred_date, as: :datepicker
-      f.input :preferred_time
-      f.input :is_remote
-      f.input :venue_address
-      f.input :city
-      f.input :country
-      f.input :platform
-      f.input :meeting_link
-      f.input :time_zone
-      f.input :status, as: :select, collection: EventRequest.statuses.keys
-      f.input :notes
-      f.input :banner, as: :file
+      f.input :category
+      f.input :banner, as: :file, hint: f.object.banner.attached? ? "Current banner attached" : "No banner uploaded"
     end
+
+    f.inputs "Schedule & Mode" do
+      f.input :preferred_date, as: :datepicker
+      f.input :preferred_time, as: :string, placeholder: "HH:MM (e.g., 14:30)"
+      f.input :is_remote, as: :select, collection: [["Physical Event", false], ["Remote Event", true]], include_blank: false
+    end
+
+    f.inputs "Location Details (Physical Events)" do
+      f.input :venue_address, as: :string
+      f.input :city, as: :string
+      f.input :country, as: :string
+    end
+
+    f.inputs "Online Meeting Details (Remote Events)" do
+      f.input :platform, as: :string, placeholder: "e.g., Zoom, Google Meet"
+      f.input :meeting_link, as: :url
+      f.input :time_zone, as: :string, placeholder: "e.g., Asia/Karachi"
+    end
+
+    f.inputs "Ticket Pricing" do
+      f.input :has_multiple_ticket_types, as: :select,
+              collection: [["Single Ticket Type", false], ["Multiple Ticket Types", true]],
+              include_blank: false,
+              hint: "Choose whether to offer a single ticket type or multiple (Standard, VIP, Premium)"
+
+      f.input :ticket_price, as: :number, step: 0.01, min: 0,
+              hint: "For single ticket type. Set to 0 for free events."
+
+      f.input :standard_ticket_price, as: :number, step: 0.01, min: 0,
+              hint: "For multiple ticket types: Standard ticket price"
+      f.input :vip_ticket_price, as: :number, step: 0.01, min: 0,
+              hint: "For multiple ticket types: VIP ticket price"
+      f.input :premium_ticket_price, as: :number, step: 0.01, min: 0,
+              hint: "For multiple ticket types: Premium ticket price"
+
+      f.input :event_capacity, as: :number, min: 1,
+              hint: "Maximum number of attendees"
+    end
+
+    f.inputs "Status & Notes" do
+      f.input :status, as: :select, collection: EventRequest.statuses.keys
+      f.input :notes, as: :text
+    end
+
     f.actions
   end
 end
