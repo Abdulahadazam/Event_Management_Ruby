@@ -20,6 +20,24 @@ class EventRequestsController < ApplicationController
     @event_request = EventRequest.find(params[:id])
   end
 
+  def generate_ai_description
+    event_title = params[:event_title]
+    category_id = params[:category_id]
+    capacity = params[:capacity]
+
+    # Get category name if provided
+    category_name = category_id.present? ? Category.find_by(id: category_id)&.name : nil
+
+    generator = AiDescriptionGenerator.new
+    result = generator.generate_description(
+      event_title: event_title,
+      category_name: category_name,
+      capacity: capacity
+    )
+
+    render json: result
+  end
+
   private
 
   def event_request_params

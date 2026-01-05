@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # Health check endpoint for Docker/Kamal
+  get "up" => "health#show", as: :rails_health_check
 
   root "pages#home"
 
@@ -23,7 +25,11 @@ Rails.application.routes.draw do
 
   post '/webhooks/stripe', to: 'webhooks#stripe'
 
-  resources :event_requests, only: [:new, :create, :show]
+  resources :event_requests, only: [:new, :create, :show] do
+    collection do
+      post :generate_ai_description
+    end
+  end
 
   get "about", to: "pages#about"
   get "contact", to: "pages#contact"

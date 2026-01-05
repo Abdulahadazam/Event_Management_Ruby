@@ -77,6 +77,7 @@ group :development, :test do
 end
 
 gem "stripe"
+gem "httparty" # For making HTTP requests to AI APIs
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]

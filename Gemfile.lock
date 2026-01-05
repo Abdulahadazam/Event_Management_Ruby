@@ -158,6 +158,10 @@ GEM
       actionpack (>= 7.0)
       activesupport (>= 7.0)
     hashie (5.0.0)
+    httparty (0.24.0)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.2)
@@ -528,6 +532,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   dotenv-rails
+  httparty
   importmap-rails
   jbuilder
   kamal
