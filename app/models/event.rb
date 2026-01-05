@@ -3,6 +3,7 @@ class Event < ApplicationRecord
 
   belongs_to :category, optional: true
   belongs_to :user, optional: true
+  belongs_to :event_request, optional: true
   has_many :registrations, dependent: :destroy
   has_many :attendees, through: :registrations, source: :user
   has_one_attached :banner
@@ -72,8 +73,14 @@ class Event < ApplicationRecord
   scope :with_coordinates, -> { where.not(latitude: nil, longitude: nil) }
   
   scope :upcoming, -> { where("date >= ?", Date.today).order(date: :asc) }
-  
+
   scope :past, -> { where("date < ?", Date.today).order(date: :desc) }
+
+  # Scopes for admin filtering
+  scope :from_requests, -> { where.not(event_request_id: nil) }
+  scope :manual, -> { where(event_request_id: nil) }
+  scope :remote, -> { where(is_remote: true) }
+  scope :physical, -> { where(is_remote: [false, nil]) }
   
   
   def banner_url
@@ -133,6 +140,23 @@ class Event < ApplicationRecord
     return nil unless has_coordinates?
 
     [latitude, longitude]
+  end
+
+  # Helper methods for new fields
+  def location_type
+    is_remote? ? "Remote" : "Physical"
+  end
+
+  def from_event_request?
+    event_request_id.present?
+  end
+
+  def manually_created?
+    event_request_id.nil?
+  end
+
+  def source_label
+    from_event_request? ? "Approved Request" : "Manually Created"
   end
   
   

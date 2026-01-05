@@ -12,6 +12,11 @@ class Ticket < ApplicationRecord
 
   TICKET_TYPES = ['Standard', 'VIP', 'Premium'].freeze
 
+
+  scope :paid, -> { where(status: 'paid') }
+  scope :pending, -> { where(status: 'pending') }
+  scope :cancelled, -> { where(status: 'cancelled') }
+
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "event_id", "id", "payment_id", "payment_method", "quantity",
      "registration_id", "status", "ticket_type", "total_amount", "updated_at",

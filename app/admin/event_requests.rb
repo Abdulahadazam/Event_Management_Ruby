@@ -68,7 +68,19 @@ ActiveAdmin.register EventRequest do
         organizer_name: event_request.organizer_name,
         organizer_email: event_request.organizer_email,
         organizer_phone: event_request.organizer_phone,
-        event_request_id: event_request.id
+        event_request_id: event_request.id,
+        is_remote: event_request.is_remote,
+        venue_address: event_request.venue_address,
+        city: event_request.city,
+        country: event_request.country,
+        platform: event_request.platform,
+        meeting_link: event_request.meeting_link,
+        time_zone: event_request.time_zone,
+        preferred_time: event_request.preferred_time,
+        event_capacity: event_request.event_capacity,
+        has_multiple_ticket_types: event_request.has_multiple_ticket_types,
+        ticket_types_data: event_request.ticket_types_data,
+        notes: event_request.notes
       )
 
       if event_request.banner.attached? && event.respond_to?(:banner)

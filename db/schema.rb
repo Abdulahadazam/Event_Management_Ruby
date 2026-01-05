@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_30_082836) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_05_044406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -123,6 +123,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_30_082836) do
     t.string "organizer_email"
     t.string "organizer_phone"
     t.bigint "event_request_id"
+    t.boolean "is_remote", default: false
+    t.string "venue_address"
+    t.string "city"
+    t.string "country"
+    t.string "platform"
+    t.string "meeting_link"
+    t.string "time_zone"
+    t.string "preferred_time"
+    t.integer "event_capacity"
+    t.boolean "has_multiple_ticket_types", default: false, null: false
+    t.jsonb "ticket_types_data", default: {}
+    t.text "notes"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["event_request_id"], name: "index_events_on_event_request_id"
     t.index ["lonlat"], name: "index_events_on_lonlat", using: :gist
