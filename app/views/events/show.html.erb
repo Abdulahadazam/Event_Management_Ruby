@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/30 flex flex-col">
+<div class="min-h-screen bg-gray-50 flex flex-col">
   <%= render 'shared/header' %>
 
   <!-- Flash Messages -->
@@ -18,7 +18,7 @@
       </div>
     </div>
   <% end %>
-  
+
   <% if alert %>
     <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full mx-4">
       <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-lg animate-slide-down">
@@ -36,77 +36,200 @@
     </div>
   <% end %>
 
-  <!-- Banner Carousel -->
-  <%= render 'banner' %>
+  <!-- Hero Banner Section -->
+  <div class="relative w-full h-[500px] bg-gradient-to-br from-indigo-600 via-indigo-500 to-purple-600 overflow-hidden">
+    <!-- Banner Image -->
+    <% if @event.banner.attached? %>
+      <%= image_tag @event.banner, alt: @event.title, class: "absolute inset-0 w-full h-full object-cover opacity-40" %>
+    <% elsif @event.image_url.present? %>
+      <%= image_tag @event.image_url, alt: @event.title, class: "absolute inset-0 w-full h-full object-cover opacity-40" %>
+    <% end %>
 
-  <!-- Main Content - Full Width Layout -->
-  <main class="flex-grow w-full">
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-20 left-10 w-72 h-72 bg-orange-300/20 rounded-full blur-3xl animate-pulse"></div>
-      <div class="absolute bottom-20 right-10 w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-      <div class="absolute top-1/2 left-1/4 w-64 h-64 bg-purple-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+    <!-- Back Button -->
+    <div class="absolute top-6 left-8">
+      <%= link_to root_path, class: "inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-lg border border-white/20" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        <span class="font-medium text-sm">Back</span>
+      <% end %>
     </div>
 
-    <div class="relative w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8">
-      <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 max-w-[1800px] mx-auto">
-        
-        <!-- Left Column: Event Details (2 columns on XL) -->
-        <div class="xl:col-span-2 space-y-6">
-          <%= render 'event_info' %>
-          <%= render 'event_description' %>
-        </div>
+    <!-- Hero Content -->
+    <div class="relative h-full flex items-end">
+      <div class="w-full px-8 sm:px-16 lg:px-24 pb-12">
+        <div class="max-w-4xl">
+          <!-- Category Badge -->
+          <% category_name = @event.category.is_a?(Category) ? @event.category.name : (@event.respond_to?(:category) && @event.category.is_a?(String) ? @event.category : nil) %>
+          <% if category_name.present? %>
+            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-sm font-semibold border border-white/30 mb-4">
+              <span class="w-2 h-2 rounded-full bg-white"></span>
+              <%= category_name %>
+            </span>
+          <% end %>
 
-        <!-- Right Column: Map and Booking (3 columns on XL - Bigger Map) -->
-        <div class="xl:col-span-3 space-y-6">
-          <!-- Map Section - Bigger and Prominent -->
-          <div class="relative">
-            <!-- Animated border effect -->
-            <div class="absolute -inset-1 bg-gradient-to-r from-orange-500 via-indigo-500 to-purple-500 rounded-3xl opacity-20 blur-sm animate-pulse"></div>
-            <%= render 'event_map' %>
+          <!-- Title -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+            <%= @event.title %>
+          </h1>
+
+          <!-- Quick Info -->
+          <div class="flex flex-wrap items-center gap-4 text-white/90">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span class="font-medium"><%= @event.registrations_count || 0 %> attending</span>
+            </div>
+            <% if @distance_formatted.present? %>
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span class="font-medium"><%= @distance_formatted %> away</span>
+              </div>
+            <% end %>
           </div>
-          
-          <!-- Booking Card -->
-          <%= render 'booking_card' %>
         </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <div class="w-full px-8 sm:px-16 lg:px-24 py-12">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          <!-- Left Column: Event Details -->
+          <div class="lg:col-span-2 space-y-8">
+
+            <!-- Date & Location Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Date -->
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded-lg bg-indigo-50 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                      <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                      <path d="M16 2v4"></path>
+                      <path d="M8 2v4"></path>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Date & Time</h3>
+                    <% if @event.date.present? %>
+                      <p class="text-gray-900 font-semibold"><%= @event.date.strftime("%B %d, %Y") %></p>
+                      <p class="text-gray-600 text-sm"><%= @event.date.strftime("%A at %I:%M %p") %></p>
+                    <% else %>
+                      <p class="text-gray-500 italic text-sm">To be announced</p>
+                    <% end %>
+                  </div>
+                </div>
+
+                <!-- Location -->
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded-lg bg-indigo-50 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Location</h3>
+                    <p class="text-gray-900 font-semibold"><%= @event.location %></p>
+                    <% if @map_data&.has_coordinates %>
+                      <a href="#map-section" class="text-indigo-600 hover:text-indigo-700 text-xs font-medium inline-flex items-center gap-1 mt-1 transition-colors">
+                        View on map →
+                      </a>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-4">About This Event</h2>
+              <div class="prose prose-gray max-w-none text-gray-600 leading-relaxed">
+                <%= simple_format @event.description %>
+              </div>
+            </div>
+
+            <!-- Map Section -->
+            <div id="map-section" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <%= render 'event_map' %>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Booking Card -->
+          <div class="lg:col-span-1">
+            <div class="lg:sticky lg:top-24 space-y-6">
+              <%= render 'booking_card' %>
+
+              <!-- Event Organizer Card -->
+              <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Event Organizer</h3>
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                    E
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-900">EventHub Team</p>
+                    <p class="text-sm text-gray-600">Event Organizer</p>
+                  </div>
+                </div>
+                <button class="w-full py-3 px-4 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-semibold text-sm border border-gray-200 transition-colors">
+                  Contact Organizer
+                </button>
+              </div>
+
+              <!-- Share Card -->
+              <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Share Event</h3>
+                <div class="flex gap-3">
+                  <button class="flex-1 py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-sm border border-gray-200 transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </button>
+                  <button class="flex-1 py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-sm border border-gray-200 transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                    </svg>
+                  </button>
+                  <button class="flex-1 py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-sm border border-gray-200 transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+                      <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </main>
-  
+
   <%= render 'shared/footer' %>
 </div>
 
 <style>
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-  
-  /* PostGIS orange line animation */
-  @keyframes pulse-orange {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-  
-  .postgis-line {
-    animation: pulse-orange 2s ease-in-out infinite;
-  }
-  
   @keyframes slide-down {
     from {
       opacity: 0;
@@ -117,7 +240,7 @@
       transform: translate(-50%, 0);
     }
   }
-  
+
   .animate-slide-down {
     animation: slide-down 0.3s ease-out;
   }
