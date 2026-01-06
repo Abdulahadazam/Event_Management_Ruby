@@ -232,6 +232,62 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
+  
+  # Chartkick for charts - Load Chart.js, date adapter, and Chartkick
+  # Chart.js must be loaded first, then date adapter, then Chartkick
+  # Using Chart.js 3.x for better compatibility with Chartkick 5.x
+  config.register_javascript 'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js'
+  # Date adapter is required for time-based charts (line_chart, area_chart with dates)
+  # Using unpkg bundle which includes date-fns
+  config.register_javascript 'https://unpkg.com/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js'
+  config.register_javascript 'https://unpkg.com/chartkick@5.2.1/dist/chartkick.js'
+  
+  # Configure Chartkick to use Chart.js and ensure it initializes properly
+  config.head = <<-HTML.html_safe
+    <script>
+      (function() {
+        function initChartkick() {
+          // Wait for Chart.js, date adapter, and Chartkick to be loaded
+          if (typeof Chart !== "undefined" && typeof Chartkick !== "undefined") {
+            // Configure Chart.js to use time scale (required for date-based charts)
+            if (Chart && Chart.defaults) {
+              Chart.defaults.scales.time = Chart.defaults.scales.time || {};
+            }
+            // Configure Chartkick to use Chart.js
+            if (Chartkick && Chartkick.config) {
+              Chartkick.config.library = "Chart";
+            }
+            // Trigger chartkick load event if available
+            if (typeof window.chartkickLoad !== "undefined") {
+              window.dispatchEvent(new Event("chartkick:load"));
+            }
+            // Re-render any charts that might have been created before libraries loaded
+            if (Chartkick && Chartkick.charts) {
+              Object.keys(Chartkick.charts).forEach(function(chartId) {
+                var chart = Chartkick.charts[chartId];
+                if (chart && typeof chart.redraw === "function") {
+                  try {
+                    chart.redraw();
+                  } catch(e) {
+                    console.log("Chart redraw error:", e);
+                  }
+                }
+              });
+            }
+          } else {
+            // Retry after a short delay if libraries aren't ready
+            setTimeout(initChartkick, 100);
+          }
+        }
+        // Initialize when DOM is ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initChartkick);
+        } else {
+          initChartkick();
+        }
+      })();
+    </script>
+  HTML
 
   # == CSV options
   #
