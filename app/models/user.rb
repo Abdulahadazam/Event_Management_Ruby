@@ -28,6 +28,7 @@ class User < ApplicationRecord
       user.name  = auth.info.name
       user.email = auth.info.email
       user.password = SecureRandom.hex(10)
+      user.skip_confirmation!  # Google already verified the email
     end
   end
 

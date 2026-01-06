@@ -196,7 +196,8 @@ class Event < ApplicationRecord
   end
   
   def self.ransackable_attributes(auth_object = nil)
-    %w[id title description date location created_at updated_at category_id price latitude longitude]
+    %w[id title description date location created_at updated_at category_id price latitude longitude
+       organizer_name organizer_email organizer_phone is_remote city country event_capacity]
   end
 
   def self.ransackable_associations(auth_object = nil)

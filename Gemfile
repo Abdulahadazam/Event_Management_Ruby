@@ -78,6 +78,8 @@ end
 
 gem "stripe"
 gem "httparty" # For making HTTP requests to AI APIs
+gem "chartkick" # Beautiful JavaScript charts
+gem "groupdate" # Group records by date for charts
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]

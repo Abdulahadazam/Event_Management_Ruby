@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  # Health check endpoint for Docker/Kamal
+  
   get "up" => "health#show", as: :rails_health_check
 
   root "pages#home"
 
-  # Letter Opener Web - View emails in development at /letter_opener
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   devise_for :users, controllers: {

@@ -7,7 +7,7 @@ class Ticket < ApplicationRecord
   validates :status, presence: true, inclusion: { in: %w[pending paid cancelled] }
   validates :ticket_type, presence: true
   
-  after_create :generate_ticket_number
+  # after_create :generate_ticket_number # Column doesn't exist yet
   after_create :send_confirmation_email, if: -> { status == 'paid' }
 
   TICKET_TYPES = ['Standard', 'VIP', 'Premium'].freeze
